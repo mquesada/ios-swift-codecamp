@@ -37,7 +37,7 @@ class MovieDetailsViewController: UIViewController {
         self.movieSynopsis.sizeToFit()
         
         // Set up views sizes
-        self.viewContentContainer.frame = CGRectMake(CGRectGetMinX(self.viewContentContainer.frame), CGRectGetMinY(self.viewContentContainer.frame), CGRectGetWidth(self.viewContentContainer.frame), CGRectGetMaxY(self.movieSynopsis.frame))
+        self.viewContentContainer.frame = CGRectMake(CGRectGetMinX(self.viewContentContainer.frame), CGRectGetMinY(self.viewContentContainer.frame), CGRectGetWidth(self.viewContentContainer.frame), CGRectGetMaxY(self.movieSynopsis.frame) + 10)
         
         self.viewScrollContainer.contentSize = CGSizeMake(CGRectGetWidth(self.viewScrollContainer.frame), CGRectGetMaxY(self.viewContentContainer.frame))
         

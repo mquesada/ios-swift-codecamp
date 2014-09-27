@@ -55,9 +55,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         var movie : Movie
         if (tableView == self.searchDisplayController!.searchResultsTableView) {
-            movie = filteredMovies[indexPath.row]
+            movie = self.filteredMovies[indexPath.row]
         } else {
-            movie = movies[indexPath.row]
+            println(movies)
+            movie = self.movies[indexPath.row]
         }
         
         var cell = self.tableView.dequeueReusableCellWithIdentifier("MovieCell") as MovieCell
@@ -99,9 +100,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             // Show loading state
             showLoadingSpinner()
             
-            // Clear the movie list
-            self.movies = []
-            
             // Request the movie list
             var url: String
             if (tabBar.selectedItem?.tag == 0) {
@@ -112,21 +110,26 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             
             var request = NSURLRequest(URL: NSURL(string: url))
             NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-                
+                // Stores the list of movies
+                self.movies = [Movie]()
+
                 // Get the JSON data from the response
                 var jsonObject = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
                 
                 // Process the JSON to get the movies
-                var movieList = jsonObject["movies"] as [NSDictionary]
-                for movie in movieList {
+                var jsonMovieList = jsonObject["movies"] as [NSDictionary]
+                for movie in jsonMovieList {
                     self.movies.append(Movie(data: movie))
                 }
                 
-                // Update the table view
-                self.tableView.reloadData()
-                
                 // Hide loading state
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
+                
+                // Stop refreshing if it was
+                self.refreshControl.endRefreshing()
+                
+                // Update the table view
+                self.tableView.reloadData()
             }
         } else {
             // If there is no connectivity, show a network error message
@@ -162,8 +165,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     func refresh(sender: AnyObject) {
         loadMovieList()
-        
-        self.refreshControl.endRefreshing()
     }
     
     /* === CONNECTIVITY METHODS === */

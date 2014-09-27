@@ -1,4 +1,4 @@
 ios-swift-codecamp
 ===================
 
-Homework made during IOs Swift code camp.
+Homework made during iOS Swift code camp.
