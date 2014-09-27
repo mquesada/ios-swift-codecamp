@@ -43,7 +43,7 @@ class MovieDetailsViewController: UIViewController {
             self.posterImage.image = image
         } else {
             // If image is not in cache, load it
-            let request = NSURLRequest(URL: NSURL(string: movie.posterUrlOrig))
+            let request = NSURLRequest(URL: NSURL(string: self.movie.posterUrlOrig))
             self.posterImage.setImageWithURLRequest(request, placeholderImage: movie.posterImage,
                 success: { (request:NSURLRequest!,response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                     self.posterImage.image = image

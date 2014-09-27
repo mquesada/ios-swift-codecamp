@@ -13,7 +13,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var tabBar: UITabBar!
     @IBOutlet weak var tableView: UITableView!
     
-    var movies: [Movie] = []
+    var movies = [Movie]()
     var filteredMovies = [Movie]()
     var refreshControl: UIRefreshControl!
     
@@ -41,10 +41,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-    func setUpSearchTableView() {
-        self.searchDisplayController!.searchResultsTableView.rowHeight = 100
-        self.searchDisplayController!.searchResultsTableView.backgroundColor = UIColor.blackColor()
-    }
+    /* === TABLE VIEW METHODS === */
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.searchDisplayController!.searchResultsTableView {
@@ -77,53 +74,33 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             cell.posterImage.setImageWithURLRequest(request, placeholderImage: nil,
                 success: { (request:NSURLRequest!,response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                         cell.posterImage.image = image
+                        cell.posterImage.setNeedsLayout()
                         SDImageCache.sharedImageCache().storeImage(image, forKey: movie.posterUrl, toDisk: true)
-                        UIView.animateWithDuration(1.5, animations: {
-                            cell.posterImage.alpha = 1.0
-                        })
-                }, failure: { [weak cell]
+                }, failure: {
                     (request:NSURLRequest!,response:NSHTTPURLResponse!, error:NSError!) -> Void in
-                    if let cellForImage = cell {
-                        cellForImage.posterImage.image = nil
-                    }
+                        cell.posterImage.image = nil
+                        cell.posterImage.setNeedsLayout()
             })
         }
+        
+        UIView.animateWithDuration(1.5, animations: {
+            cell.posterImage.alpha = 1.0
+        })
         
         return cell
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var cell = sender as MovieCell
-        var detailsController = segue.destinationViewController as MovieDetailsViewController
-        cell.movie.posterImage = cell.posterImage.image
-        detailsController.movie = cell.movie
-    }
-    
-    func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
-        loadMovieList()
-    }
-    
-    func setRefreshControl() {
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.backgroundColor = UIColor.blackColor()
-        self.refreshControl.tintColor = UIColor.orangeColor()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: Selector("refresh:"), forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refreshControl)
-    }
-    
-    func refresh(sender: AnyObject) {
-        loadMovieList()
-        
-        self.refreshControl.endRefreshing()
-    }
-    
+    /*
+        Method to load the list of movies asynchronously.
+        It updates the the table view and the list of movies.
+    */
     func loadMovieList() {
         if (hasConnectivity()) {
             // Show loading state
             showLoadingSpinner()
             
-            movies = []
+            // Clear the movie list
+            self.movies = []
             
             // Request the movie list
             var url: String
@@ -141,9 +118,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 
                 // Process the JSON to get the movies
                 var movieList = jsonObject["movies"] as [NSDictionary]
-                for m in movieList {
-                    var movie = Movie(data: m)
-                    self.movies.append(movie)
+                for movie in movieList {
+                    self.movies.append(Movie(data: movie))
                 }
                 
                 // Update the table view
@@ -153,15 +129,56 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
             }
         } else {
+            // If there is no connectivity, show a network error message
             showNetworkErrorMsg()
         }
     }
+    
+    /* === SEGUE METHODS === */
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        var cell = sender as MovieCell
+        var detailsController = segue.destinationViewController as MovieDetailsViewController
+        cell.movie.posterImage = cell.posterImage.image
+        detailsController.movie = cell.movie
+    }
+    
+    /* === TAB BAR METHODS === */
+    
+    func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
+        loadMovieList()
+    }
+    
+    /* === REFRESH CONTROL METHODS === */
+    
+    func setRefreshControl() {
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.backgroundColor = UIColor.blackColor()
+        self.refreshControl.tintColor = UIColor.orangeColor()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.addTarget(self, action: Selector("refresh:"), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
+    }
+    
+    func refresh(sender: AnyObject) {
+        loadMovieList()
+        
+        self.refreshControl.endRefreshing()
+    }
+    
+    /* === CONNECTIVITY METHODS === */
     
     func hasConnectivity() -> Bool {
         let reachability: Reachability = Reachability.reachabilityForInternetConnection()
         let networkStatus: Int = reachability.currentReachabilityStatus().value
         return networkStatus != 0
     }
+
+    func showNetworkErrorMsg() {
+        TSMessage.showNotificationWithTitle("Network Error", type: TSMessageNotificationType.Error)
+    }
+    
+    /* === LOADING SPINNER METHODS === */
     
     func showLoadingSpinner() {
         let loading = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
@@ -169,8 +186,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         loading.labelText = "Loading...";
     }
     
-    func showNetworkErrorMsg() {
-        TSMessage.showNotificationWithTitle("Network Error", type: TSMessageNotificationType.Error)
+    /* === TABLE SEARCH METHODS === */
+    
+    func setUpSearchTableView() {
+        self.searchDisplayController!.searchResultsTableView.rowHeight = 100
+        self.searchDisplayController!.searchResultsTableView.backgroundColor = UIColor.blackColor()
     }
     
     func filterContentForSearchText(searchText: String) {
