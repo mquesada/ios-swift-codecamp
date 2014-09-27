@@ -20,14 +20,7 @@ class MovieDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.title = movie.title
-        
-        self.movieTitle.text = "\(movie.title) \(movie.year) (\(movie.rating))"
-        self.movieScore.text = "Critics score: \(movie.criticsScore)  Audience score: \(movie.audienceScore)"
-        self.movieSynopsis.text = movie.synopsis
-        
-        self.posterImage.setImageWithURL(NSURL(string: movie.posterUrlOrig), placeholderImage: movie.posterImage)
+        setMovieData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,15 +28,31 @@ class MovieDetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func setMovieData() {
+        self.title = movie.title
+        self.movieTitle.text = "\(movie.title) \(movie.year) (\(movie.rating))"
+        self.movieScore.text = "Critics score: \(movie.criticsScore)  Audience score: \(movie.audienceScore)"
+        self.movieSynopsis.text = movie.synopsis
+        setMovieImage()
     }
-    */
-
+    
+    func setMovieImage() {
+        // Check if image is in cache
+        var image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(movie.posterUrlOrig)
+        if (image != nil) {
+            self.posterImage.image = image
+        } else {
+            // If image is not in cache, load it
+            let request = NSURLRequest(URL: NSURL(string: movie.posterUrlOrig))
+            self.posterImage.setImageWithURLRequest(request, placeholderImage: movie.posterImage,
+                success: { (request:NSURLRequest!,response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                    self.posterImage.image = image
+                    SDImageCache.sharedImageCache().storeImage(image, forKey: self.movie.posterUrlOrig, toDisk: true)
+                }, failure: {
+                    (request:NSURLRequest!,response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                    self.posterImage.image = self.movie.posterImage
+            })
+        }
+    }
+    
 }

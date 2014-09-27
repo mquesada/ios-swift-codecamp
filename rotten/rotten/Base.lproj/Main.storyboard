@@ -62,12 +62,24 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <tabBar contentMode="scaleToFill" barStyle="black" id="vmy-ap-bhb">
+                                <rect key="frame" x="0.0" y="519" width="320" height="49"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <items>
+                                    <tabBarItem title="Movies" image="movies" id="dGo-gn-lAu"/>
+                                    <tabBarItem tag="1" title="DVDs" image="dvds" id="qcG-AH-XfA"/>
+                                </items>
+                                <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="selectedImageTintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </tabBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Movies" id="YYr-Xd-v8l"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="GKM-sq-hu8" id="5Cu-DK-drb"/>
+                        <outlet property="tabBar" destination="vmy-ap-bhb" id="m8b-JU-sYt"/>
                         <outlet property="tableView" destination="OyY-BX-NaC" id="Y0h-8X-rbE"/>
                     </connections>
                 </viewController>
@@ -167,9 +179,14 @@
             <point key="canvasLocation" x="162" y="337"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="dvds" width="16" height="16"/>
+        <image name="movies" width="16" height="16"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
 </document>

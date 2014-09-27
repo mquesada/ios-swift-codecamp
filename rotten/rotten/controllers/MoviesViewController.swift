@@ -8,8 +8,9 @@
 
 import UIKit
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, UITabBarDelegate {
     
+    @IBOutlet weak var tabBar: UITabBar!
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [Movie] = []
@@ -21,11 +22,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
         tableView.delegate = self
         tableView.dataSource = self
+        tabBar.delegate = self
         
         setUpSearchTableView()
         
         // Set the refresh control
         setRefreshControl()
+        
+        // Select first
+        tabBar.selectedItem = tabBar.items?.first as? UITabBarItem
         
         // Load the movie list
         loadMovieList()
@@ -62,11 +67,27 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         cell.movie = movie
         cell.titleLabel.text = movie.title
         cell.synopsisLabel.text = movie.synopsis
-        cell.posterImage.setImageWithURL(NSURL(string: movie.posterUrl))
         
-        UIView.animateWithDuration(1.5, animations: {
-            cell.posterImage.alpha = 1.0
-        })
+        var image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(movie.posterUrl)
+        if (image != nil) {
+            cell.posterImage.image = image
+        } else {
+            // If image not in cache then load it asynchronously and store it in the cache
+            let request = NSURLRequest(URL: NSURL(string: movie.posterUrl))
+            cell.posterImage.setImageWithURLRequest(request, placeholderImage: nil,
+                success: { (request:NSURLRequest!,response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                        cell.posterImage.image = image
+                        SDImageCache.sharedImageCache().storeImage(image, forKey: movie.posterUrl, toDisk: true)
+                        UIView.animateWithDuration(1.5, animations: {
+                            cell.posterImage.alpha = 1.0
+                        })
+                }, failure: { [weak cell]
+                    (request:NSURLRequest!,response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                    if let cellForImage = cell {
+                        cellForImage.posterImage.image = nil
+                    }
+            })
+        }
         
         return cell
     }
@@ -76,6 +97,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         var detailsController = segue.destinationViewController as MovieDetailsViewController
         cell.movie.posterImage = cell.posterImage.image
         detailsController.movie = cell.movie
+    }
+    
+    func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
+        loadMovieList()
     }
     
     func setRefreshControl() {
@@ -98,8 +123,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             // Show loading state
             showLoadingSpinner()
             
+            movies = []
+            
             // Request the movie list
-            let url = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=vdcqkrw8bk2s44kymf9rrf2y"
+            var url: String
+            if (tabBar.selectedItem?.tag == 0) {
+                url = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=vdcqkrw8bk2s44kymf9rrf2y"
+            } else {
+                url = "http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?apikey=vdcqkrw8bk2s44kymf9rrf2y"
+            }
+            
             var request = NSURLRequest(URL: NSURL(string: url))
             NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
                 
