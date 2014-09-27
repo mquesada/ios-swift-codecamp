@@ -8,11 +8,12 @@
 
 import UIKit
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [Movie] = []
+    var filteredMovies = [Movie]()
     var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
@@ -20,6 +21,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
         tableView.delegate = self
         tableView.dataSource = self
+        
+        setUpSearchTableView()
         
         // Set the refresh control
         setRefreshControl()
@@ -33,17 +36,30 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         // Dispose of any resources that can be recreated.
     }
     
+    func setUpSearchTableView() {
+        self.searchDisplayController!.searchResultsTableView.rowHeight = 100
+        self.searchDisplayController!.searchResultsTableView.backgroundColor = UIColor.blackColor()
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            return self.filteredMovies.count
+        } else {
+            return self.movies.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var movie = movies[indexPath.row]
+        var movie : Movie
+        if (tableView == self.searchDisplayController!.searchResultsTableView) {
+            movie = filteredMovies[indexPath.row]
+        } else {
+            movie = movies[indexPath.row]
+        }
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("MovieCell") as MovieCell
-        
+        var cell = self.tableView.dequeueReusableCellWithIdentifier("MovieCell") as MovieCell
+        cell.movie = movie
         cell.titleLabel.text = movie.title
         cell.synopsisLabel.text = movie.synopsis
         cell.posterImage.setImageWithURL(NSURL(string: movie.posterUrl))
@@ -57,18 +73,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var cell = sender as MovieCell
-        let selectedIndex = self.tableView.indexPathForCell(cell)
-        
         var detailsController = segue.destinationViewController as MovieDetailsViewController
-        
-        var movie = movies[selectedIndex!.row]
-        movie.posterImage = cell.posterImage.image
-        detailsController.movie = movie
-
+        cell.movie.posterImage = cell.posterImage.image
+        detailsController.movie = cell.movie
     }
     
     func setRefreshControl() {
         self.refreshControl = UIRefreshControl()
+        self.refreshControl.backgroundColor = UIColor.blackColor()
+        self.refreshControl.tintColor = UIColor.orangeColor()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: Selector("refresh:"), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
@@ -125,6 +138,25 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     func showNetworkErrorMsg() {
         TSMessage.showNotificationWithTitle("Network Error", type: TSMessageNotificationType.Error)
+    }
+    
+    func filterContentForSearchText(searchText: String) {
+        // Filter the array using the filter method
+        self.filteredMovies = self.movies.filter({( movie: Movie) -> Bool in
+            let titleMatch = movie.title.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+            let synopsisMatch = movie.synopsis.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+            return (titleMatch != nil || synopsisMatch != nil)
+        })
+    }
+    
+    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchString searchString: String!) -> Bool {
+        self.filterContentForSearchText(searchString)
+        return true
+    }
+    
+    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
+        self.filterContentForSearchText(self.searchDisplayController!.searchBar.text)
+        return true
     }
 
 }
