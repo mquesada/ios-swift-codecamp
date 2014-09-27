@@ -1,7 +1,8 @@
 ios-swift-codecamp
 ===================
 
-Homework made during iOS Swift code camp.
+Week assignments made during the iOS Swift Codepath Observer group class.
 
-*Assignment Week 1
+#Assignment Week 1
+
 [Rotten Tomatoes Client](https://github.com/mquesada/ios-swift-codecamp/tree/master/rotten)
