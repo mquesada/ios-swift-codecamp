@@ -16,7 +16,8 @@ class MovieDetailsViewController: UIViewController {
     @IBOutlet weak var movieScore: UILabel!
     @IBOutlet weak var movieSynopsis: UILabel!
     @IBOutlet weak var posterImage: UIImageView!
-    @IBOutlet weak var detailsViewContainer: UIView!
+    @IBOutlet weak var viewContentContainer: UIView!
+    @IBOutlet weak var viewScrollContainer: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,13 @@ class MovieDetailsViewController: UIViewController {
         self.movieTitle.text = "\(movie.title) \(movie.year) (\(movie.rating))"
         self.movieScore.text = "Critics score: \(movie.criticsScore)  Audience score: \(movie.audienceScore)"
         self.movieSynopsis.text = movie.synopsis
+        self.movieSynopsis.sizeToFit()
+        
+        // Set up views sizes
+        self.viewContentContainer.frame = CGRectMake(CGRectGetMinX(self.viewContentContainer.frame), CGRectGetMinY(self.viewContentContainer.frame), CGRectGetWidth(self.viewContentContainer.frame), CGRectGetMaxY(self.movieSynopsis.frame))
+        
+        self.viewScrollContainer.contentSize = CGSizeMake(CGRectGetWidth(self.viewScrollContainer.frame), CGRectGetMaxY(self.viewContentContainer.frame))
+        
         setMovieImage()
     }
     
