@@ -5,8 +5,6 @@ iOS Swift application to display the list of box office movies or DVDs from [Rot
 
 Time Spent: 15 hours
 
-*Install Pods before opening project*
-
 #Project Requirements
 * [x] User can view a list of movies from Rotten Tomatoes. Poster images must be loading asynchronously.
 * [x] User can view movie details by tapping on a cell
