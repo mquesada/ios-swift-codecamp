@@ -57,7 +57,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         if (tableView == self.searchDisplayController!.searchResultsTableView) {
             movie = self.filteredMovies[indexPath.row]
         } else {
-            println(movies)
             movie = self.movies[indexPath.row]
         }
         
@@ -150,6 +149,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
         loadMovieList()
+        
+        if (tabBar.selectedItem?.tag == 0) {
+            self.title = "Movies"
+        } else {
+            self.title = "DVDs"
+        }
     }
     
     /* === REFRESH CONTROL METHODS === */
