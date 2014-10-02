@@ -18,6 +18,21 @@ class BusinessCell: UITableViewCell {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!
     
+    var business: Business {
+        get {
+            return self.business
+        }
+        set(data) {
+            self.profileImage.setImageWithURL(data.profileImageUrl)
+            self.nameLabel.text = data.name
+            self.distanceLabel.text = "12 mi"
+            self.ratingImage.setImageWithURL(data.ratingImageUrl)
+            self.reviewsLabel.text = "\(data.reviewCount) Reviews"
+            self.addressLabel.text = data.address
+            self.typeLabel.text = data.categories
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

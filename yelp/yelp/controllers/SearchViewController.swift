@@ -19,6 +19,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var client : YelpClient!
     var searchBar: UISearchBar!
+    var refreshControl: UIRefreshControl!
     
     var businesses = [Business]()
 
@@ -46,22 +47,13 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = self.tableView.dequeueReusableCellWithIdentifier("BusinessCell") as BusinessCell
-        
-        var business = self.businesses[indexPath.row]
-        
-        cell.profileImage.setImageWithURL(business.profileImageUrl)
-        
-        cell.nameLabel.text = business.name
-        cell.distanceLabel.text = "12 mi"
-        cell.ratingImage.setImageWithURL(business.ratingImageUrl)
-        cell.reviewsLabel.text = "\(business.reviewCount) Reviews"
-        cell.addressLabel.text = business.address
-        cell.typeLabel.text = business.categories
-        
+        cell.business = self.businesses[indexPath.row]
         return cell
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        showLoadingSpinner()
+        
         client.searchWithTerm(searchBar.text,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
                 let businesses = (response["businesses"] as Array).map({
@@ -71,13 +63,44 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 self.businesses = businesses
                 
+                // Hide loading state
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                
                 self.tableView.reloadData()
                 
                 
             },
             failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                self.showNetworkErrorMsg()
             }
         )
+    }
+    
+    /* === LOADING SPINNER METHODS === */
+    
+    func showLoadingSpinner() {
+        let loading = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loading.mode = MBProgressHUDModeDeterminate
+        loading.color = UIColor.redColor()
+        loading.labelText = "Searching...";
+    }
+    
+    /* === REFRESH CONTROL METHODS === */
+    
+    func setRefreshControl() {
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.tintColor = UIColor.redColor()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh", attributes: [NSForegroundColorAttributeName : UIColor.orangeColor()])
+        self.refreshControl.addTarget(self, action: Selector("refresh:"), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
+    }
+    
+    func refresh(sender: AnyObject) {
+        
+    }
+    
+    func showNetworkErrorMsg() {
+        TSMessage.showNotificationWithTitle("Network Error", type: TSMessageNotificationType.Error)
     }
 
 }
