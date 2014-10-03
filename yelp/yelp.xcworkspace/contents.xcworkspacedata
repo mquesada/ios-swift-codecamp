@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:yelp/models/Business.swift">
-   </FileRef>
-   <FileRef
       location = "group:yelp.xcodeproj">
    </FileRef>
    <FileRef

@@ -6,8 +6,6 @@
 //
 //
 
-import UIKit
-
 class Business {
     
     var name: String

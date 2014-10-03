@@ -8,32 +8,33 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, FilterViewDelegate {
+    
+    let defaultTerm = "Restaurants"
+    let limit = 20
     
     @IBOutlet weak var tableView: UITableView!
     
-    let consumerKey = "bb0cSZQ5TjORqBXJdLYSWQ"
-    let consumerSecret = "g4fCISJKin7M5rqjk2_VMEAhjXQ"
-    let accessToken = "suComg6zANp1rCasqN8CdQLmeyWdN7TA"
-    let accessSecret = "1n_x9wo20ZOLi9z1OOA1TNfQ-Ds"
-    
-    var client : YelpClient!
     var searchBar: UISearchBar!
     var refreshControl: UIRefreshControl!
+    var searchManager: SearchManager!
+    var offset = 0
     
-    var businesses = [Business]()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        self.client = YelpClient(consumerKey: consumerKey, consumerSecret: consumerSecret, accessToken: accessToken, accessSecret: accessSecret)
-        
         searchBar = UISearchBar()
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
+        
+        self.searchManager = SearchManager()
+        
+        // Load some restaurants first
+        self.searchBar.text = defaultTerm
+        doSearch()
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,38 +43,40 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.businesses.count
+        return self.searchManager.result.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = self.tableView.dequeueReusableCellWithIdentifier("BusinessCell") as BusinessCell
-        cell.business = self.businesses[indexPath.row]
+        cell.business = self.searchManager.result[indexPath.row]
         return cell
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        showLoadingSpinner()
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        var filtersController = segue.destinationViewController as FiltersViewController
+        filtersController.delegate = self
+    }
+
+    func filteringDone(filterCategories: Array<FilterCategory>) {
         
-        client.searchWithTerm(searchBar.text,
-            success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                let businesses = (response["businesses"] as Array).map({
-                    (data: NSDictionary) -> Business in
-                    return Business(data: data)
-                })
-                
-                self.businesses = businesses
-                
-                // Hide loading state
+    }
+    
+    /* === SEARCH METHODS === */
+    
+    func doSearch() {
+        self.searchManager.executeSearch(searchBar.text, limit: limit, offset: offset,
+            before: self.showLoadingSpinner,
+            after:{ () -> Void in },
+            onSuccess: { () -> Void in
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
-                
                 self.tableView.reloadData()
-                
-                
             },
-            failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                self.showNetworkErrorMsg()
-            }
+            onFailure: self.showNetworkErrorMsg
         )
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        doSearch()
     }
     
     /* === LOADING SPINNER METHODS === */
@@ -96,7 +99,11 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func refresh(sender: AnyObject) {
-        
+        self.offset = 0
+        if (searchBar.text.isEmpty){
+            searchBar.text = defaultTerm
+        }
+        doSearch()
     }
     
     func showNetworkErrorMsg() {
