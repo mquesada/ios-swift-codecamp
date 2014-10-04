@@ -19,13 +19,20 @@ class Business {
     
     init(data: NSDictionary) {
         self.name = data["name"] as String
-        self.profileImageUrl = NSURL(string: data["image_url"] as String)
         self.rating = data["rating"] as Int
         self.ratingImageUrl = NSURL(string: data["rating_img_url"] as String)
         self.reviewCount = data["review_count"] as Int
         self.location = data["location"] as? NSDictionary
         self.categoryList = data["categories"] as? Array<Array<String>>
         self.region = data["region"] as? NSDictionary
+        
+        var imageUrl = ""
+        if (data["image_url"] != nil) {
+            imageUrl = data["image_url"] as String
+        } else {
+            imageUrl = data["snippet_image_url"] as String
+        }
+        self.profileImageUrl = NSURL(string: imageUrl as String)
     }
     
     var address: String {

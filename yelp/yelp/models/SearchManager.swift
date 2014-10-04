@@ -15,6 +15,7 @@ class SearchManager {
 
     var result = [Business]()
     var client : YelpClient!
+    var filterManager = FilterManager()
     
     init(){
         self.client = YelpClient(consumerKey: consumerKey, consumerSecret: consumerSecret, accessToken: accessToken, accessSecret: accessSecret)
@@ -23,12 +24,11 @@ class SearchManager {
     func executeSearch(term: String, limit: Int! = 20, offset: Int! = 0, before:() -> Void, after:() -> Void, onSuccess:() -> Void, onFailure:() -> Void) {
         before()
         
-        var parameters = [
-            "offset": "\(offset)",
-            "limit": "\(limit)"
-        ]
+        var parameters = self.filterManager.getSelectedCategories()
+        parameters["offset"] = "\(offset)"
+        parameters["limit"] = "\(limit)"
         
-        client.searchWithTerm(term, parameters: parameters,
+        client.searchWithTerm(term, filters: parameters,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
                 let businesses = (response["businesses"] as Array).map({
                     (data: NSDictionary) -> Business in
@@ -40,6 +40,7 @@ class SearchManager {
                 onSuccess()
             },
             failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                println(error.description)
                 onFailure()
             }
         )

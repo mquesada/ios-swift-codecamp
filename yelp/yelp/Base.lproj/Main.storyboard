@@ -132,7 +132,7 @@
                                     <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="eoX-2t-6eq" kind="presentation" id="6yZ-Sc-Sbe"/>
+                                    <segue destination="3zy-US-fjY" kind="presentation" id="6yZ-Sc-Sbe"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -150,21 +150,39 @@
         <scene sceneID="TsH-QO-eLv">
             <objects>
                 <tableViewController id="eoX-2t-6eq" customClass="FiltersViewController" customModule="yelp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Z7j-fq-8eq">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Z7j-fq-8eq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="sectionIndexBackgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
                             <outlet property="dataSource" destination="eoX-2t-6eq" id="Zc2-Oh-Vsw"/>
                             <outlet property="delegate" destination="eoX-2t-6eq" id="ANv-sY-iT6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Filters" id="Gm5-at-IJd"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationItem key="navigationItem" title="Filters" id="kwg-rz-ZX9">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="3XS-Il-3V3">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="cancelFilters:" destination="eoX-2t-6eq" id="7Aw-B7-Rq3"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Search" id="Xxo-3A-vW0">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="searchWithFilters:" destination="eoX-2t-6eq" id="Sce-Im-BFL"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="cancelButton" destination="3XS-Il-3V3" id="Vcn-oz-q3V"/>
+                        <outlet property="searchButton" destination="Xxo-3A-vW0" id="55a-zw-CJP"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="okn-gG-LkN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1564" y="82"/>
+            <point key="canvasLocation" x="2150.5" y="81.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yBx-ze-SEk">
@@ -185,6 +203,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KT5-cL-aTL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="476.5" y="52.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7v4-ig-YsQ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3zy-US-fjY" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LlS-Fh-hbb">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="eoX-2t-6eq" kind="relationship" relationship="rootViewController" id="5Aa-Uv-3Z5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RcE-dZ-pL2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1563.5" y="81.5"/>
         </scene>
     </scenes>
 </document>

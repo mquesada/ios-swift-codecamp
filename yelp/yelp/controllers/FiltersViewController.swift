@@ -10,13 +10,16 @@ import UIKit
 
 class FiltersViewController: UITableViewController {
 
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var searchButton: UIBarButtonItem!
+    
     var delegate: FilterViewDelegate!
-    var filterManager = FilterManager()
+    var filterManager: FilterManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,13 +46,14 @@ class FiltersViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let filterCategory = self.filterManager.filterCategoryList[indexPath.section]
-        let filter = filterCategory.options[indexPath.row]
         
         var cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
-        cell.textLabel?.text = filter.label
+        cell.backgroundColor = UIColor.whiteColor()
         
         if (filterCategory.expanded) {
-            if (filterCategory.type == FilterCategoryType.Single) {
+            let filter = filterCategory.options[indexPath.row]
+            cell.textLabel?.text = filter.label
+            if (filterCategory.type == FilterCategoryType.Single || filterCategory.type == FilterCategoryType.Multiple) {
                 if (filter.selected){
                     cell.accessoryView = UIImageView(image: UIImage(named: "Select"))
                 } else {
@@ -59,13 +63,44 @@ class FiltersViewController: UITableViewController {
                 let switchView = UISwitch()
                 switchView.on = filter.selected
                 cell.accessoryView = switchView
+                cell.selectionStyle = UITableViewCellSelectionStyle.None
             }
         } else {
+            cell.textLabel?.text = filterCategory.options[filterCategory.selectedIndex].label
             cell.accessoryView = UIImageView(image: UIImage(named:"Expand"))
         }
         
-        
         return cell
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let filterCategory = self.filterManager.filterCategoryList[indexPath.section]
 
+        let currentFilter = filterCategory.options[indexPath.row]
+        
+        if (filterCategory.expanded) {
+            filterCategory.expanded = false
+            if (filterCategory.type == FilterCategoryType.Single) {
+                currentFilter.selected = true
+                filterCategory.options[filterCategory.selectedIndex].selected = false
+                filterCategory.selectedIndex = indexPath.row
+            } else if (filterCategory.type == FilterCategoryType.Multiple) {
+                currentFilter.selected = !currentFilter.selected
+            }
+        } else {
+            filterCategory.expanded = true
+        }
+        self.tableView.reloadData()
+        
+    }
+
+    @IBAction func cancelFilters(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func searchWithFilters(sender: AnyObject) {
+        self.delegate.filteringDone()
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
 }

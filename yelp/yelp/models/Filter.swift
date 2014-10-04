@@ -17,5 +17,4 @@ class Filter {
         self.value = value
         self.selected = selected
     }
-        
 }

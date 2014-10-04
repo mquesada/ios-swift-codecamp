@@ -12,6 +12,7 @@ class FilterCategory {
     var options: Array<Filter>
     var type: FilterCategoryType
     var expanded: Bool
+    var selectedIndex = 0
     
     init(label: String, name: String, options: Array<Filter>, type: FilterCategoryType, expanded: Bool! = false) {
         self.label = label
@@ -21,9 +22,14 @@ class FilterCategory {
         self.expanded = expanded
     }
     
+    func selectedOptionsAsString() -> String {
+        return ",".join((self.options.filter({ $0.selected })).map({ $0.value }))
+    }
+    
 }
 
 enum FilterCategoryType {
     case Single
     case Multiple
+    case OnOff
 }

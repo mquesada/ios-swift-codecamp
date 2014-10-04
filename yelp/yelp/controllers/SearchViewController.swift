@@ -17,7 +17,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var searchBar: UISearchBar!
     var refreshControl: UIRefreshControl!
-    var searchManager: SearchManager!
+    var searchManager: SearchManager!    
     var offset = 0
     
     override func viewDidLoad() {
@@ -53,12 +53,18 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var filtersController = segue.destinationViewController as FiltersViewController
-        filtersController.delegate = self
+        if (segue.destinationViewController is UINavigationController) {
+            let navigationController = segue.destinationViewController as UINavigationController
+            if (navigationController.viewControllers[0] is FiltersViewController) {
+                let filterController = navigationController.viewControllers[0] as FiltersViewController
+                filterController.delegate = self
+                filterController.filterManager = self.searchManager.filterManager
+            }
+        }
     }
 
-    func filteringDone(filterCategories: Array<FilterCategory>) {
-        
+    func filteringDone() {
+        doSearch()
     }
     
     /* === SEARCH METHODS === */

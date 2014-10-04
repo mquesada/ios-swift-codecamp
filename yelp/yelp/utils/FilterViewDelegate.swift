@@ -8,5 +8,5 @@
 
 protocol FilterViewDelegate {
     
-    func filteringDone(filterCategories: Array<FilterCategory>)
+    func filteringDone()
 }
