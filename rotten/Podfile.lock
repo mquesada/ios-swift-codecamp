@@ -22,18 +22,23 @@ PODS:
     - AFNetworking/NSURLSession
   - HexColors (2.2.1)
   - MBProgressHUD (0.9)
+  - SDWebImage (3.7.1):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.7.1)
   - TSMessages (0.9.10):
     - HexColors
 
 DEPENDENCIES:
   - AFNetworking
   - MBProgressHUD
+  - SDWebImage
   - TSMessages
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   HexColors: 01384d2bbe8dc4ffa43c3b4135db6e976952d153
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
   TSMessages: 8598a0645e9d54847f6e5f3b070bef39c493bbf8
 
 COCOAPODS: 0.33.1

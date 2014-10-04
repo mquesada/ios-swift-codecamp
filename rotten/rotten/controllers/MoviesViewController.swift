@@ -163,7 +163,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         self.refreshControl = UIRefreshControl()
         self.refreshControl.backgroundColor = UIColor.blackColor()
         self.refreshControl.tintColor = UIColor.orangeColor()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh", attributes: [NSForegroundColorAttributeName : UIColor.orangeColor()])
         self.refreshControl.addTarget(self, action: Selector("refresh:"), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
     }
