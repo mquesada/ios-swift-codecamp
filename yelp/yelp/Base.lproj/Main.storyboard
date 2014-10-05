@@ -40,7 +40,7 @@
                                                     </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 mi" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QqA-qX-axk">
-                                                    <rect key="frame" x="319" y="10" width="38" height="19"/>
+                                                    <rect key="frame" x="319" y="10" width="38" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -52,20 +52,25 @@
                                                         <constraint firstAttribute="height" constant="17" id="SnH-if-5q6"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Addr" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CqC-LG-F8r">
-                                                    <rect key="frame" x="120" y="70" width="43" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Addr" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CqC-LG-F8r">
+                                                    <rect key="frame" x="120" y="70" width="43" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cats" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ix7-1L-6T8">
-                                                    <rect key="frame" x="120" y="92" width="43" height="21"/>
+                                                    <rect key="frame" x="120" y="98" width="43" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="xdU-tX-dgH"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="xdU-tX-dgH"/>
+                                                        </mask>
+                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XAu-An-uCr">
                                                     <rect key="frame" x="120" y="10" width="43" height="20"/>
@@ -104,6 +109,12 @@
                                                 <constraint firstItem="XAu-An-uCr" firstAttribute="leading" secondItem="YuJ-KA-uV3" secondAttribute="trailing" constant="10" id="ysy-eg-6lZ"/>
                                                 <constraint firstAttribute="bottom" secondItem="YuJ-KA-uV3" secondAttribute="bottom" constant="10" id="zUf-zK-yPa"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="cnI-ia-jRz"/>
+                                                    <exclude reference="msh-TJ-qEf"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="addressLabel" destination="CqC-LG-F8r" id="MpG-dr-So3"/>
