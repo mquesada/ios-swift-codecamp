@@ -34,6 +34,8 @@ class BusinessCell: UITableViewCell {
             // Set rounded corners
             self.profileImage.layer.cornerRadius = 10.0
             self.profileImage.clipsToBounds = true
+            
+            self.layoutIfNeeded()
         }
     }
     

@@ -76,22 +76,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: {(placemarks, error)->Void in
-            if (error != nil) {
-                println("Reverse geocoder failed with error = " + error.localizedDescription)
-                return
-            }
-            
-            if placemarks.count > 0 {
-                let placemark = placemarks[0] as CLPlacemark
-                self.locationManager.stopUpdatingLocation()
-                if (placemark.locality != nil && placemark.administrativeArea != nil) {
-                    self.searchManager.location = "\(placemark.locality),\(placemark.administrativeArea)"
-                }
-            } else {
-                println("Problem with the data received from geocoder")
-            }
-        })
+        self.searchManager.userLocation.currentLocation = locations.last as CLLocation
+        self.locationManager.stopUpdatingLocation()
     }
     
     /* === FILTER DELEGATE METHODS === */

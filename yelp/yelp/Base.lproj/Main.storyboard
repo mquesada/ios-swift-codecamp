@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="749" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessCell" id="NAw-dj-kJN" customClass="BusinessCell" customModule="yelp" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessCell" id="NAw-dj-kJN" customClass="BusinessCell" customModule="yelp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NAw-dj-kJN" id="YZy-ZP-rSZ">
@@ -55,17 +55,9 @@
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cats" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ix7-1L-6T8">
                                                     <rect key="frame" x="120" y="83" width="43" height="15"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="xdU-tX-dgH"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="xdU-tX-dgH"/>
-                                                        </mask>
-                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XAu-An-uCr">
                                                     <rect key="frame" x="120" y="10" width="43" height="20"/>
@@ -93,23 +85,15 @@
                                                 <constraint firstItem="QqA-qX-axk" firstAttribute="top" secondItem="XAu-An-uCr" secondAttribute="top" id="IyN-gX-8BX"/>
                                                 <constraint firstItem="6SR-FG-hxw" firstAttribute="top" secondItem="XAu-An-uCr" secondAttribute="bottom" constant="8" id="LTa-44-R1h"/>
                                                 <constraint firstItem="MAS-2K-960" firstAttribute="bottom" secondItem="6SR-FG-hxw" secondAttribute="bottom" id="Vk8-Bq-598"/>
-                                                <constraint firstItem="XAu-An-uCr" firstAttribute="top" secondItem="YZy-ZP-rSZ" secondAttribute="top" constant="10" id="ZIp-Ux-hzH"/>
-                                                <constraint firstItem="QqA-qX-axk" firstAttribute="baseline" secondItem="XAu-An-uCr" secondAttribute="baseline" id="cnI-ia-jRz"/>
+                                                <constraint firstItem="XAu-An-uCr" firstAttribute="top" secondItem="YuJ-KA-uV3" secondAttribute="top" id="a7a-hK-4yq"/>
                                                 <constraint firstItem="6SR-FG-hxw" firstAttribute="leading" secondItem="XAu-An-uCr" secondAttribute="leading" id="dPh-XV-p9N"/>
                                                 <constraint firstItem="MAS-2K-960" firstAttribute="leading" secondItem="6SR-FG-hxw" secondAttribute="trailing" constant="8" id="jYX-ui-sC4"/>
                                                 <constraint firstItem="6SR-FG-hxw" firstAttribute="leading" secondItem="YuJ-KA-uV3" secondAttribute="trailing" constant="10" id="khP-uZ-C2L"/>
-                                                <constraint firstItem="QqA-qX-axk" firstAttribute="top" secondItem="YZy-ZP-rSZ" secondAttribute="top" constant="10" id="msh-TJ-qEf"/>
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="YuJ-KA-uV3" secondAttribute="bottom" constant="10" id="syP-Vk-XiN"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="QqA-qX-axk" secondAttribute="trailing" constant="10" id="sys-Nz-IvP"/>
                                                 <constraint firstItem="ix7-1L-6T8" firstAttribute="trailing" secondItem="CqC-LG-F8r" secondAttribute="trailing" id="tev-YZ-zG8"/>
                                                 <constraint firstItem="ix7-1L-6T8" firstAttribute="leading" secondItem="CqC-LG-F8r" secondAttribute="leading" id="yKf-xm-mqG"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="cnI-ia-jRz"/>
-                                                    <exclude reference="msh-TJ-qEf"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="addressLabel" destination="CqC-LG-F8r" id="MpG-dr-So3"/>

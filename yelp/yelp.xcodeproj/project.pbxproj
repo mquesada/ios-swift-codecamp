@@ -24,6 +24,7 @@
 		5F1E223D19DBC83400567876 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E223C19DBC83300567876 /* BusinessCell.swift */; };
 		5F1E223F19DBCE1200567876 /* YelpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E223E19DBCE1200567876 /* YelpClient.swift */; };
 		5F316D8019DFC8BC00128613 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F316D7F19DFC8BC00128613 /* CoreLocation.framework */; };
+		5F67A95119E0D745004BB017 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F67A95019E0D745004BB017 /* UserLocation.swift */; };
 		5FF7E73B19DD06D8009824EA /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF7E73A19DD06D8009824EA /* Business.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		5F1E223C19DBC83300567876 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusinessCell.swift; path = views/BusinessCell.swift; sourceTree = "<group>"; };
 		5F1E223E19DBCE1200567876 /* YelpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YelpClient.swift; path = utils/YelpClient.swift; sourceTree = "<group>"; };
 		5F316D7F19DFC8BC00128613 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		5F67A95019E0D745004BB017 /* UserLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserLocation.swift; path = models/UserLocation.swift; sourceTree = "<group>"; };
 		5FF7E73A19DD06D8009824EA /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Business.swift; path = models/Business.swift; sourceTree = "<group>"; };
 		E5CC844A29B545E29C775792 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC344054CA27481895D13A14 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				5F1E223A19DBBD9C00567876 /* SearchViewController.swift */,
 				5F19998419DE468600912E6B /* FilterViewDelegate.swift */,
 				5F1E221B19DBB9E400567876 /* Main.storyboard */,
+				5F67A95019E0D745004BB017 /* UserLocation.swift */,
 				5F19998219DE443200912E6B /* Utils.swift */,
 				5F19998019DE43C600912E6B /* FiltersViewController.swift */,
 				5F19997E19DE2F8E00912E6B /* Filter.swift */,
@@ -302,6 +305,7 @@
 				5F19998F19DE5AE800912E6B /* FilterManager.swift in Sources */,
 				5F19999119DE5AFE00912E6B /* SearchManager.swift in Sources */,
 				5F19998D19DE5A9000912E6B /* FilterCategory.swift in Sources */,
+				5F67A95119E0D745004BB017 /* UserLocation.swift in Sources */,
 				5F19998119DE43C600912E6B /* FiltersViewController.swift in Sources */,
 				5F1E223B19DBBD9C00567876 /* SearchViewController.swift in Sources */,
 				5F1E221819DBB9E400567876 /* AppDelegate.swift in Sources */,

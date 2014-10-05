@@ -91,8 +91,7 @@ class FiltersViewController: UITableViewController {
         } else {
             filterCategory.expanded = true
         }
-        self.tableView.reloadData()
-        
+        self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
     }
     
     func switchCategoryChanged(switchView: UISwitch) {
