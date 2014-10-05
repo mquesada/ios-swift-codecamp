@@ -38,6 +38,5 @@ Icons used in the app from [http://www.freepik.com/](http://www.freepik.com/)
 
 #Issues
 
-* Constraints don't show errors or warnings in X-Code but when the cell is layout, an error ocurred that says "Unable to simultaneously satisfy constraints."
 * Distance in the cell is hard-coded, not calculated.
 

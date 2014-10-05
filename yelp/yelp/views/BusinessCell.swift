@@ -41,6 +41,7 @@ class BusinessCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.contentView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

@@ -29,6 +29,9 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
+        self.tableView.estimatedRowHeight = 120
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        
         searchBar = UISearchBar()
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
@@ -48,6 +51,11 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.searchBar.text = defaultTerm
         doSearch()
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+//        self.tableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -60,6 +68,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = self.tableView.dequeueReusableCellWithIdentifier("BusinessCell") as BusinessCell
+        cell.frame = CGRectMake(0, 0, 9999, 9999)
         cell.business = self.searchManager.result[indexPath.row]
         return cell
     }
@@ -99,8 +108,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.refreshControl.endRefreshing()
                 
                 self.tableView.reloadData()
-                
-                self.tableView.rowHeight = UITableViewAutomaticDimension
             },
             onFailure: { () -> Void in                
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
