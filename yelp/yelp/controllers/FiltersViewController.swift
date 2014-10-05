@@ -61,7 +61,8 @@ class FiltersViewController: UITableViewController {
                 }
             } else {
                 let switchView = UISwitch()
-                switchView.on = filter.selected
+                switchView.on = ("1" == filter.value)
+                switchView.addTarget(self, action: "switchCategoryChanged:", forControlEvents: UIControlEvents.ValueChanged)
                 cell.accessoryView = switchView
                 cell.selectionStyle = UITableViewCellSelectionStyle.None
             }
@@ -92,6 +93,15 @@ class FiltersViewController: UITableViewController {
         }
         self.tableView.reloadData()
         
+    }
+    
+    func switchCategoryChanged(switchView: UISwitch) {
+        let cell = switchView.superview as UITableViewCell
+        if let indexPath = self.tableView.indexPathForCell(cell) {
+            let filterCategory = self.filterManager.filterCategoryList[indexPath.section]
+            let filter = filterCategory.options[indexPath.row]
+            filter.value = switchView.on ? "1" : "0"
+        }
     }
 
     @IBAction func cancelFilters(sender: AnyObject) {

@@ -14,7 +14,7 @@ class FilterManager {
             ], type: FilterCategoryType.OnOff, expanded: true),
         FilterCategory(label: "Categories", name: "category_filter", options:
             [
-                Filter(label: "American (New)", value: "newamerican", selected: true),
+                Filter(label: "American (New)", value: "newamerican"),
                 Filter(label: "American (Traditional)", value: "tradamerican"),
                 Filter(label: "Argentine", value: "argentine"),
                 Filter(label: "Breakfast & Brunch", value: "breakfast_brunch"),
@@ -57,8 +57,10 @@ class FilterManager {
     func getSelectedCategories() -> Dictionary<String, String> {
         var selectedCategories = Dictionary<String, String>()
         for category in filterCategoryList {
-            selectedCategories[category.name] = category.selectedOptionsAsString()
-            
+            let selectedOptions = category.selectedOptionsAsString()
+            if (!selectedOptions.isEmpty) {
+                selectedCategories[category.name] = selectedOptions
+            }
         }
         return selectedCategories
     }

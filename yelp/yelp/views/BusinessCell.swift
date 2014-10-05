@@ -30,18 +30,19 @@ class BusinessCell: UITableViewCell {
             self.reviewsLabel.text = "\(data.reviewCount) Reviews"
             self.addressLabel.text = data.address
             self.typeLabel.text = data.categories
+
+            // Set rounded corners
+            self.profileImage.layer.cornerRadius = 10.0
+            self.profileImage.clipsToBounds = true
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

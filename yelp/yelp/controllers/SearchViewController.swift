@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import CoreLocation
 
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, FilterViewDelegate {
+class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,
+                            UISearchBarDelegate, FilterViewDelegate, CLLocationManagerDelegate {
     
     let defaultTerm = "Restaurants"
     let limit = 20
@@ -19,6 +21,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var refreshControl: UIRefreshControl!
     var searchManager: SearchManager!    
     var offset = 0
+    var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +32,15 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         searchBar = UISearchBar()
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
+        
+        setRefreshControl()
+        
+        if (CLLocationManager.locationServicesEnabled()) {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestAlwaysAuthorization()
+            locationManager.startUpdatingLocation()
+        }        
         
         self.searchManager = SearchManager()
         
@@ -62,7 +74,28 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
-
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: {(placemarks, error)->Void in
+            if (error != nil) {
+                println("Reverse geocoder failed with error = " + error.localizedDescription)
+                return
+            }
+            
+            if placemarks.count > 0 {
+                let placemark = placemarks[0] as CLPlacemark
+                self.locationManager.stopUpdatingLocation()
+                if (placemark.locality != nil && placemark.administrativeArea != nil) {
+                    self.searchManager.location = "\(placemark.locality),\(placemark.administrativeArea)"
+                }
+            } else {
+                println("Problem with the data received from geocoder")
+            }
+        })
+    }
+    
+    /* === FILTER DELEGATE METHODS === */
+    
     func filteringDone() {
         doSearch()
     }
@@ -75,9 +108,22 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             after:{ () -> Void in },
             onSuccess: { () -> Void in
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
+                
+                // Stop refreshing if it was
+                self.refreshControl.endRefreshing()
+                
                 self.tableView.reloadData()
+                
+                self.tableView.rowHeight = UITableViewAutomaticDimension
             },
-            onFailure: self.showNetworkErrorMsg
+            onFailure: { () -> Void in                
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                
+                // Stop refreshing if it was
+                self.refreshControl.endRefreshing()
+                
+                self.showNetworkErrorMsg()
+            }
         )
     }
     
@@ -99,7 +145,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func setRefreshControl() {
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = UIColor.redColor()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh", attributes: [NSForegroundColorAttributeName : UIColor.orangeColor()])
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
         self.refreshControl.addTarget(self, action: Selector("refresh:"), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
     }

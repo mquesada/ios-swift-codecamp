@@ -16,6 +16,7 @@ class SearchManager {
     var result = [Business]()
     var client : YelpClient!
     var filterManager = FilterManager()
+    var location: String!
     
     init(){
         self.client = YelpClient(consumerKey: consumerKey, consumerSecret: consumerSecret, accessToken: accessToken, accessSecret: accessSecret)
@@ -27,6 +28,12 @@ class SearchManager {
         var parameters = self.filterManager.getSelectedCategories()
         parameters["offset"] = "\(offset)"
         parameters["limit"] = "\(limit)"
+        
+        if (location != nil) {
+            parameters["location"] = location
+        } else {
+            parameters["location"] = "San Francisco,CA"
+        }
         
         client.searchWithTerm(term, filters: parameters,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in

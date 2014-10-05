@@ -23,6 +23,7 @@
 		5F1E223B19DBBD9C00567876 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E223A19DBBD9C00567876 /* SearchViewController.swift */; };
 		5F1E223D19DBC83400567876 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E223C19DBC83300567876 /* BusinessCell.swift */; };
 		5F1E223F19DBCE1200567876 /* YelpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E223E19DBCE1200567876 /* YelpClient.swift */; };
+		5F316D8019DFC8BC00128613 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F316D7F19DFC8BC00128613 /* CoreLocation.framework */; };
 		5FF7E73B19DD06D8009824EA /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF7E73A19DD06D8009824EA /* Business.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		5F1E223A19DBBD9C00567876 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = controllers/SearchViewController.swift; sourceTree = "<group>"; };
 		5F1E223C19DBC83300567876 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusinessCell.swift; path = views/BusinessCell.swift; sourceTree = "<group>"; };
 		5F1E223E19DBCE1200567876 /* YelpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YelpClient.swift; path = utils/YelpClient.swift; sourceTree = "<group>"; };
+		5F316D7F19DFC8BC00128613 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5FF7E73A19DD06D8009824EA /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Business.swift; path = models/Business.swift; sourceTree = "<group>"; };
 		E5CC844A29B545E29C775792 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC344054CA27481895D13A14 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F316D8019DFC8BC00128613 /* CoreLocation.framework in Frameworks */,
 				0349215DCD964F69A6C9FE27 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -153,6 +156,7 @@
 		FE8F30BF5DB7425D98930162 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F316D7F19DFC8BC00128613 /* CoreLocation.framework */,
 				E5CC844A29B545E29C775792 /* libPods.a */,
 			);
 			name = Frameworks;
