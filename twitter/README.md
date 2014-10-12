@@ -22,6 +22,7 @@ Time Spent: 10 hours
 
 #Demo
 
+![Application demo](twitter-demo.gif)
                     
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
