@@ -70,7 +70,7 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
             var detailsController = segue.destinationViewController as TweetDetailsViewController
             var cell = sender as TweetCell
             detailsController.tweet = cell.tweet
-        } else if (segue.identifier == "replyTweetFromList") {
+        } else if (segue.identifier == "tweetSegue") {
             var detailsController = segue.destinationViewController as TweetViewController
             var btn = sender as UIButton
             var tweet = self.tweets[btn.tag]
@@ -97,6 +97,17 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     @IBAction func favoriteAction(sender: AnyObject) {
+        var btn = sender as UIButton
+        var tweet = self.tweets[btn.tag]
+        TwitterClient.sharedInstance.toggleFavoriteTweetWithCompletion(tweet,
+            completion: { (tweet, error) -> Void in
+                if (tweet != nil) {
+                    self.tweets[btn.tag] = tweet!
+                } else {
+                    TSMessage.showNotificationWithTitle("Error favoriting tweet", type: TSMessageNotificationType.Error)                    
+                }
+            }
+        )
     }
     
     /* === LOADING SPINNER METHODS === */

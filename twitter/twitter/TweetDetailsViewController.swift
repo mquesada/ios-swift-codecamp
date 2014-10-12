@@ -24,7 +24,7 @@ class TweetDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.profileImageView.setImageWithURL(tweet?.user.profileImageUrl)
+        self.profileImageView.setImageWithURL(tweet.user.profileImageUrl)
         self.profileImageView.layer.cornerRadius = 10.0
         self.profileImageView.clipsToBounds = true
 
@@ -32,11 +32,11 @@ class TweetDetailsViewController: UIViewController {
         self.usernameLabel.text = "@\(tweet.user.screenName)"
         self.tweetTextLabel.text = tweet.text
         self.createdAtLabel.text = tweet.createdAtString
-        self.retweetsLabel.text = "\(tweet.retweetCount!)"
+        self.retweetsLabel.text = "\(tweet.retweetCount)"
         self.favoritesLabel.text = "\(tweet.favoritesCount)"
         
-        self.favoriteBtn.enabled = !tweet.favorited!
-        
+        self.favoriteBtn.setImage(UIImage(named: "favoriteEnabled"), forState: UIControlState.Selected)
+        self.favoriteBtn.selected = tweet.favorited
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,7 +44,24 @@ class TweetDetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }    
 
-    @IBAction func replyAction(sender: AnyObject) {        self.performSegueWithIdentifier("replyTweetFromDetails", sender: self)
+    @IBAction func replyAction(sender: AnyObject) {
+        self.performSegueWithIdentifier("replyTweetFromDetails", sender: self)
+    }
+    
+    @IBAction func favoriteAction(sender: AnyObject) {
+        TwitterClient.sharedInstance.toggleFavoriteTweetWithCompletion(
+            self.tweet,
+            completion: { (tweet, error) -> Void in
+                if (tweet != nil) {
+                    self.tweet = tweet
+                    var btn = sender as UIButton
+                    btn.selected = self.tweet.favorited
+                } else {
+                    TSMessage.showNotificationWithTitle("Error favoriting tweet", type: TSMessageNotificationType.Error)
+                }
+            }
+        )
+
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {

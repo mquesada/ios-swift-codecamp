@@ -31,6 +31,9 @@ class TweetCell: UITableViewCell {
             self.profileImageView.layer.cornerRadius = 10.0
             self.profileImageView.clipsToBounds = true
             
+            self.favoriteBtn.setImage(UIImage(named: "favoriteEnabled"), forState: UIControlState.Selected)
+            self.favoriteBtn.selected = self.tweet!.favorited
+            
             self.layoutIfNeeded()
         }
     }

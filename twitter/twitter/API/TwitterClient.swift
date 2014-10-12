@@ -105,5 +105,22 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         }
     }
     
+    func toggleFavoriteTweetWithCompletion(tweet: Tweet, completion: (tweet: Tweet?, error: NSError?) -> Void) {
+        var params = ["id": tweet.id]
+        
+        var url = "/1.1/favorites/create.json"
+        if (tweet.favorited) {
+            url = "/1.1/favorites/destroy.json"
+        }
+        self.POST(url, parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            var tweet = Tweet(data: response as NSDictionary)
+            completion(tweet: tweet, error: nil)
+            
+            }) { (operation:AFHTTPRequestOperation!, error: NSError!) -> Void in
+                println(error)
+                completion(tweet: nil, error: error)
+        }
+        
+    }
     
 }

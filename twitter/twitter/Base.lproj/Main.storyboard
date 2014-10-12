@@ -129,7 +129,7 @@
                                             <outlet property="timeLabel" destination="Uul-Df-ZF3" id="joP-Fd-SsK"/>
                                             <outlet property="tweetTextLabel" destination="b68-kr-jjr" id="AEj-mL-Xji"/>
                                             <outlet property="usernameLabel" destination="oSQ-jE-jbS" id="ITQ-uF-fFc"/>
-                                            <segue destination="gxh-CY-L6n" kind="show" identifier="replyTweetFromList" id="EoB-CR-pJ5"/>
+                                            <segue destination="jKE-US-aJM" kind="show" identifier="tweetDetailsSegue" id="XX2-Ba-rCg"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -150,7 +150,7 @@
                                 <action selector="logoutAction:" destination="vXZ-lx-hvc" id="5eZ-Hz-gTP"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Tweet" id="xFk-cg-cYU">
+                        <barButtonItem key="rightBarButtonItem" title="New" id="xFk-cg-cYU">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="addTweet:" destination="vXZ-lx-hvc" id="RYz-Fk-BIO"/>
@@ -362,6 +362,9 @@
                                 </state>
                                 <state key="disabled" image="favorite"/>
                                 <state key="selected" image="favoriteEnabled"/>
+                                <connections>
+                                    <action selector="favoriteAction:" destination="jKE-US-aJM" eventType="touchUpInside" id="rus-XS-eLK"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -421,7 +424,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wIP-NS-vNF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2378.5" y="880.5"/>
+            <point key="canvasLocation" x="2365.5" y="790.5"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="f8p-eG-RV2">
@@ -491,6 +494,6 @@
         <image name="retweet" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="EoB-CR-pJ5"/>
+        <segue reference="8UI-tY-JKb"/>
     </inferredMetricsTieBreakers>
 </document>
