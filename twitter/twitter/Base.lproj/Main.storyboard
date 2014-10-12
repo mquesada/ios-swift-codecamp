@@ -421,7 +421,7 @@
                     <navigationItem key="navigationItem" id="SEm-fw-Oah"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <segue destination="Tx3-FN-7Fm" kind="presentation" identifier="loggedInSegue" modalTransitionStyle="crossDissolve" id="Z1X-7D-rLi"/>
+                        <segue destination="Tx3-FN-7Fm" kind="showDetail" identifier="loggedInSegue" id="Z1X-7D-rLi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NgY-5Z-ImL" userLabel="First Responder" sceneMemberID="firstResponder"/>

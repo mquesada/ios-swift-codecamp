@@ -43,7 +43,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
     @IBAction func postTweet(sender: AnyObject) {
         TwitterClient.sharedInstance.postTweetWithCompletion(self.tweetTextView.text, replyId: nil) { (tweet, error) -> Void in
             if (tweet != nil) {
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.navigationController?.popViewControllerAnimated(true)
             } else {
                 println(error)
                 TSMessage.showNotificationWithTitle("Error posting tweet", type: TSMessageNotificationType.Error)
