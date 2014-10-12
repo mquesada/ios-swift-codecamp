@@ -59,6 +59,7 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = self.tableView.dequeueReusableCellWithIdentifier("TweetCell") as TweetCell
+        cell.frame = CGRectMake(0, 0, 9999, 9999)
         cell.tweet = self.tweets[indexPath.row]
         return cell
     }
