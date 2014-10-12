@@ -68,7 +68,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="replyAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="NfQ-JW-W1q"/>
+                                                        <segue destination="gxh-CY-L6n" kind="show" identifier="replyTweetFromList" id="cPq-7m-KEX"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oby-Nk-3Z1">
@@ -154,6 +154,7 @@
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="addTweet:" destination="vXZ-lx-hvc" id="RYz-Fk-BIO"/>
+                                <segue destination="gxh-CY-L6n" kind="show" identifier="tweetSegue" id="XIi-x0-lvP"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -161,12 +162,11 @@
                     <connections>
                         <outlet property="logoutBtn" destination="ecB-fq-gku" id="zfy-bI-r6H"/>
                         <outlet property="tableView" destination="AHa-EC-b0a" id="Gf4-Vj-tR2"/>
-                        <segue destination="gxh-CY-L6n" kind="show" identifier="tweetSegue" id="8UI-tY-JKb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2006.5" y="34.5"/>
+            <point key="canvasLocation" x="1998.5" y="43.5"/>
         </scene>
         <!--Tweet View Controller-->
         <scene sceneID="4sm-RO-gvU">
@@ -424,7 +424,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wIP-NS-vNF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2365.5" y="790.5"/>
+            <point key="canvasLocation" x="1998.5" y="896.5"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="f8p-eG-RV2">
@@ -494,6 +494,6 @@
         <image name="retweet" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8UI-tY-JKb"/>
+        <segue reference="cPq-7m-KEX"/>
     </inferredMetricsTieBreakers>
 </document>

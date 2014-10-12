@@ -70,7 +70,7 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
             var detailsController = segue.destinationViewController as TweetDetailsViewController
             var cell = sender as TweetCell
             detailsController.tweet = cell.tweet
-        } else if (segue.identifier == "tweetSegue") {
+        } else if (segue.identifier == "replyTweetFromList") {
             var detailsController = segue.destinationViewController as TweetViewController
             var btn = sender as UIButton
             var tweet = self.tweets[btn.tag]
@@ -78,8 +78,8 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
             detailsController.tweetReplyUsername = tweet.user.screenName
         }
     }
-    
-    
+
+
     @IBAction func logoutAction(sender: AnyObject) {
         User.currentUser?.logout()
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -87,10 +87,6 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
 
     @IBAction func addTweet(sender: AnyObject) {
         self.performSegueWithIdentifier("tweetSegue", sender: self)
-    }
-    
-    @IBAction func replyAction(sender: AnyObject) {
-        self.performSegueWithIdentifier("replyTweetFromList", sender: sender)
     }
     
     @IBAction func retweetAction(sender: AnyObject) {
