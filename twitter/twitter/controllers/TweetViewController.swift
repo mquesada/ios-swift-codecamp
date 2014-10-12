@@ -16,6 +16,9 @@ class TweetViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var tweetTextView: UITextView!
     @IBOutlet weak var countLabel: UILabel!
     
+    var tweetReplyId: Int!
+    var tweetReplyUsername: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,7 +44,11 @@ class TweetViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func postTweet(sender: AnyObject) {
-        TwitterClient.sharedInstance.postTweetWithCompletion(self.tweetTextView.text, replyId: nil) { (tweet, error) -> Void in
+        var text = self.tweetTextView.text
+        if (self.tweetReplyUsername != nil) {
+            text = "@\(self.tweetReplyUsername) \(self.tweetTextView.text)"
+        }
+        TwitterClient.sharedInstance.postTweetWithCompletion(text, replyId: tweetReplyId) { (tweet, error) -> Void in
             if (tweet != nil) {
                 self.navigationController?.popViewControllerAnimated(true)
             } else {

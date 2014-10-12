@@ -61,6 +61,7 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
         var cell = self.tableView.dequeueReusableCellWithIdentifier("TweetCell") as TweetCell
         cell.frame = CGRectMake(0, 0, 9999, 9999)
         cell.tweet = self.tweets[indexPath.row]
+        cell.index = indexPath.row
         return cell
     }
     
@@ -69,6 +70,12 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
             var detailsController = segue.destinationViewController as TweetDetailsViewController
             var cell = sender as TweetCell
             detailsController.tweet = cell.tweet
+        } else if (segue.identifier == "replyTweetFromList") {
+            var detailsController = segue.destinationViewController as TweetViewController
+            var btn = sender as UIButton
+            var tweet = self.tweets[btn.tag]
+            detailsController.tweetReplyId = tweet.id
+            detailsController.tweetReplyUsername = tweet.user.screenName
         }
     }
     
@@ -80,6 +87,16 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
 
     @IBAction func addTweet(sender: AnyObject) {
         self.performSegueWithIdentifier("tweetSegue", sender: self)
+    }
+    
+    @IBAction func replyAction(sender: AnyObject) {
+        self.performSegueWithIdentifier("replyTweetFromList", sender: sender)
+    }
+    
+    @IBAction func retweetAction(sender: AnyObject) {
+    }
+    
+    @IBAction func favoriteAction(sender: AnyObject) {
     }
     
     /* === LOADING SPINNER METHODS === */

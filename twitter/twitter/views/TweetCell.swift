@@ -16,6 +16,10 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var tweetTextLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     
+    @IBOutlet weak var replyBtn: UIButton!
+    @IBOutlet weak var retweetBtn: UIButton!
+    @IBOutlet weak var favoriteBtn: UIButton!
+    
     var tweet: Tweet? {
         didSet {
             self.profileImageView.setImageWithURL(self.tweet!.user.profileImageUrl)
@@ -28,6 +32,14 @@ class TweetCell: UITableViewCell {
             self.profileImageView.clipsToBounds = true
             
             self.layoutIfNeeded()
+        }
+    }
+    
+    var index: Int? {
+        didSet {
+            replyBtn.tag = self.index!
+            retweetBtn.tag = self.index!
+            favoriteBtn.tag = self.index!
         }
     }
     

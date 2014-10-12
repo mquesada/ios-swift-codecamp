@@ -67,6 +67,9 @@
                                                     <state key="normal" title="Button" image="reply">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="replyAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="NfQ-JW-W1q"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oby-Nk-3Z1">
                                                     <rect key="frame" x="109" y="64" width="16" height="16"/>
@@ -77,6 +80,9 @@
                                                     <state key="normal" title="Button" image="retweet">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="retweetAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="IdF-kA-3l8"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xds-Ab-Hur">
                                                     <rect key="frame" x="150" y="64" width="16" height="16"/>
@@ -87,6 +93,9 @@
                                                     <state key="normal" title="Button" image="favorite">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="favoriteAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="lNv-tq-nSS"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -112,12 +121,15 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="favoriteBtn" destination="xds-Ab-Hur" id="4na-X3-LDu"/>
                                             <outlet property="nameLabel" destination="w25-hS-08x" id="dCp-fY-hfg"/>
                                             <outlet property="profileImageView" destination="fmi-sx-3DM" id="ETn-BG-XKb"/>
+                                            <outlet property="replyBtn" destination="ZbR-zO-LUn" id="3qE-Mt-TDi"/>
+                                            <outlet property="retweetBtn" destination="oby-Nk-3Z1" id="a6p-gD-jSb"/>
                                             <outlet property="timeLabel" destination="Uul-Df-ZF3" id="joP-Fd-SsK"/>
                                             <outlet property="tweetTextLabel" destination="b68-kr-jjr" id="AEj-mL-Xji"/>
                                             <outlet property="usernameLabel" destination="oSQ-jE-jbS" id="ITQ-uF-fFc"/>
-                                            <segue destination="jKE-US-aJM" kind="show" identifier="tweetDetailsSegue" id="N9p-4q-L9a"/>
+                                            <segue destination="gxh-CY-L6n" kind="show" identifier="replyTweetFromList" id="EoB-CR-pJ5"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -387,6 +399,14 @@
                             <constraint firstItem="jhH-zT-pLK" firstAttribute="top" secondItem="0aY-1l-aaq" secondAttribute="top" id="wAa-kz-ZiH"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Smk-hY-EGe">
+                        <barButtonItem key="rightBarButtonItem" title="Reply" id="geo-ng-0gk">
+                            <connections>
+                                <action selector="replyAction:" destination="jKE-US-aJM" id="Qia-dv-6hh"/>
+                                <segue destination="gxh-CY-L6n" kind="show" identifier="replyTweetFromDetails" id="XVb-Cx-G8U"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="createdAtLabel" destination="0M0-NA-USP" id="8Y2-KJ-pfO"/>
@@ -401,7 +421,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wIP-NS-vNF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2472.5" y="697.5"/>
+            <point key="canvasLocation" x="2378.5" y="880.5"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="f8p-eG-RV2">
@@ -470,4 +490,7 @@
         <image name="reply" width="64" height="64"/>
         <image name="retweet" width="64" height="64"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="EoB-CR-pJ5"/>
+    </inferredMetricsTieBreakers>
 </document>
