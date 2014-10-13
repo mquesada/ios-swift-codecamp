@@ -90,6 +90,17 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     @IBAction func retweetAction(sender: AnyObject) {
+        var btn = sender as UIButton
+        var tweet = self.tweets[btn.tag]
+        TwitterClient.sharedInstance.retweetWithCompletion(tweet, completion: { (tweet, error) -> Void in
+            if (tweet != nil) {
+                self.homeTimeline()
+                TSMessage.showNotificationWithTitle("Tweet retweeted successfully", type: TSMessageNotificationType.Success)
+            } else {
+                TSMessage.showNotificationWithTitle("Error while retweeting", type: TSMessageNotificationType.Error)
+            }
+            
+        })
     }
     
     @IBAction func favoriteAction(sender: AnyObject) {

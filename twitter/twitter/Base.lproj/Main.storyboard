@@ -350,6 +350,9 @@
                                 <state key="normal" image="retweet">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="retweetAction:" destination="jKE-US-aJM" eventType="touchUpInside" id="gkr-gp-xoJ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="isQ-Z5-woo">
                                 <rect key="frame" x="98" y="264" width="16" height="16"/>
@@ -494,6 +497,6 @@
         <image name="retweet" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cPq-7m-KEX"/>
+        <segue reference="XVb-Cx-G8U"/>
     </inferredMetricsTieBreakers>
 </document>

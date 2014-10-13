@@ -64,6 +64,17 @@ class TweetDetailsViewController: UIViewController {
 
     }
     
+    @IBAction func retweetAction(sender: AnyObject) {
+        TwitterClient.sharedInstance.retweetWithCompletion(self.tweet, completion: { (tweet, error) -> Void in
+                if (tweet != nil) {
+                    TSMessage.showNotificationWithTitle("Tweet retweeted successfully", type: TSMessageNotificationType.Success)
+                } else {
+                    TSMessage.showNotificationWithTitle("Error while retweeting", type: TSMessageNotificationType.Error)
+                }
+            }
+        )
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if (segue.identifier == "replyTweetFromDetails") {
             var detailsController = segue.destinationViewController as TweetViewController
