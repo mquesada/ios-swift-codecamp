@@ -55,8 +55,23 @@ class TweetViewController: UIViewController, UITextViewDelegate {
                 println(error)
                 TSMessage.showNotificationWithTitle("Error posting tweet", type: TSMessageNotificationType.Error)
             }
-            
         }
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        var textCount = countElements(self.tweetTextView.text)
+        self.countLabel.text = "\(140 - textCount)"
+    }
+    
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if (countElements(text) == 0) {
+            if (countElements(self.tweetTextView.text) != 0) {
+                return true
+            }
+        } else if (countElements(self.tweetTextView.text) > 139) {
+            return false
+        }
+        return true
     }
     
 }

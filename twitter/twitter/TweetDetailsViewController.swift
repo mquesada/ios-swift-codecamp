@@ -56,18 +56,22 @@ class TweetDetailsViewController: UIViewController {
                     self.tweet = tweet
                     var btn = sender as UIButton
                     btn.selected = self.tweet.favorited
+                    self.tweet.favoritesCount = tweet.favoritesCount
+                    self.favoritesLabel.text = "\(self.tweet.favoritesCount)"
                 } else {
                     TSMessage.showNotificationWithTitle("Error favoriting tweet", type: TSMessageNotificationType.Error)
                 }
             }
         )
-
     }
     
     @IBAction func retweetAction(sender: AnyObject) {
-        TwitterClient.sharedInstance.retweetWithCompletion(self.tweet, completion: { (tweet, error) -> Void in
+        TwitterClient.sharedInstance.retweetWithCompletion(self.tweet,
+            completion: { (tweet, error) -> Void in
                 if (tweet != nil) {
                     TSMessage.showNotificationWithTitle("Tweet retweeted successfully", type: TSMessageNotificationType.Success)
+                    self.tweet.retweetCount = tweet.retweetCount
+                    self.retweetsLabel.text = "\(self.tweet.retweetCount)"
                 } else {
                     TSMessage.showNotificationWithTitle("Error while retweeting", type: TSMessageNotificationType.Error)
                 }

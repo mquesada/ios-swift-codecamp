@@ -76,7 +76,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         
     }
     
-    func homeTimelineWithParams(params: Dictionary<String, String>?, completion: (tweets: [Tweet]?, error: NSError?) -> ()) {
+    func homeTimelineWithParams(params: Dictionary<String, String>?, completion: (tweets: [Tweet]!, error: NSError!) -> ()) {
         self.GET("1.1/statuses/home_timeline.json", parameters: params,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
                 var tweets = Tweet.tweetsWithArray(response as [NSDictionary])
@@ -90,7 +90,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         
     }
     
-    func postTweetWithCompletion(tweet: String, replyId: Int?, completion: (tweet: Tweet?, error: NSError?) -> Void) {
+    func postTweetWithCompletion(tweet: String, replyId: Int?, completion: (tweet: Tweet!, error: NSError!) -> Void) {
         var params = ["status": tweet]
         if (replyId != nil) {
             params.updateValue("\(replyId!)", forKey: "in_reply_to_status_id")
@@ -105,7 +105,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         }
     }
     
-    func toggleFavoriteTweetWithCompletion(tweet: Tweet, completion: (tweet: Tweet?, error: NSError?) -> Void) {
+    func toggleFavoriteTweetWithCompletion(tweet: Tweet, completion: (tweet: Tweet!, error: NSError!) -> Void) {
         var params = ["id": tweet.id]
         
         var url = "/1.1/favorites/create.json"
@@ -123,7 +123,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         
     }
     
-    func retweetWithCompletion(tweet: Tweet, completion: (tweet: Tweet?, error: NSError?) -> Void) {
+    func retweetWithCompletion(tweet: Tweet, completion: (tweet: Tweet!, error: NSError!) -> Void) {
         var url = "/1.1/statuses/retweet/\(tweet.id).json"
         self.POST(url, parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             var tweet = Tweet(data: response as NSDictionary)

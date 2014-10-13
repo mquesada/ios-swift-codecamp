@@ -11,15 +11,15 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchImg" translatesAutoresizingMaskIntoConstraints="NO" id="71A-rv-TfF">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                    <rect key="frame" x="10" y="10" width="460" height="460"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="71A-rv-TfF" secondAttribute="trailing" id="EHs-8I-vYq"/>
-                <constraint firstItem="71A-rv-TfF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="NoA-LX-gLi"/>
-                <constraint firstItem="71A-rv-TfF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="V8u-vb-COl"/>
-                <constraint firstAttribute="bottom" secondItem="71A-rv-TfF" secondAttribute="bottom" id="tig-gM-qhw"/>
+                <constraint firstAttribute="trailing" secondItem="71A-rv-TfF" secondAttribute="trailing" constant="10" id="EHs-8I-vYq"/>
+                <constraint firstItem="71A-rv-TfF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="NoA-LX-gLi"/>
+                <constraint firstItem="71A-rv-TfF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="V8u-vb-COl"/>
+                <constraint firstAttribute="bottom" secondItem="71A-rv-TfF" secondAttribute="bottom" constant="10" id="tig-gM-qhw"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
