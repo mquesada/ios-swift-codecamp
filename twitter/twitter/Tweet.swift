@@ -19,6 +19,8 @@ class Tweet: NSObject {
     var favorited: Bool
     var retweetCount: Int
     var retweeted: Bool
+    var isRetweet = false
+    var embeddedTwitted: Tweet!
     
     init(data: NSDictionary) {
         self.id = data["id"] as Int!
@@ -29,6 +31,10 @@ class Tweet: NSObject {
         self.favorited = data["favorited"] as Bool
         self.retweetCount = data["retweet_count"] as Int!
         self.retweeted = data["retweeted"] as Bool
+        if (data["retweeted_status"] != nil) {
+            self.isRetweet = true
+            self.embeddedTwitted = Tweet(data: data["retweeted_status"] as NSDictionary)
+        }
         
         var formatter = NSDateFormatter()
         formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"

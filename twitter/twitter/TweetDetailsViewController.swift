@@ -18,6 +18,7 @@ class TweetDetailsViewController: UIViewController {
     @IBOutlet weak var retweetsLabel: UILabel!
     @IBOutlet weak var favoritesLabel: UILabel!
     @IBOutlet weak var favoriteBtn: UIButton!
+    @IBOutlet weak var retweetBtn: UIButton!
     
     var tweet: Tweet!
 
@@ -37,6 +38,11 @@ class TweetDetailsViewController: UIViewController {
         
         self.favoriteBtn.setImage(UIImage(named: "favoriteEnabled"), forState: UIControlState.Selected)
         self.favoriteBtn.selected = tweet.favorited
+
+        self.retweetBtn.setImage(UIImage(named: "retweetEnabled"), forState: UIControlState.Selected)
+        self.retweetBtn.selected = tweet.retweeted
+        self.retweetBtn.enabled = !tweet.retweeted
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,16 +55,17 @@ class TweetDetailsViewController: UIViewController {
     }
     
     @IBAction func favoriteAction(sender: AnyObject) {
+        var btn = sender as UIButton
+        btn.selected = !self.tweet.favorited
         TwitterClient.sharedInstance.toggleFavoriteTweetWithCompletion(
             self.tweet,
             completion: { (tweet, error) -> Void in
                 if (tweet != nil) {
                     self.tweet = tweet
-                    var btn = sender as UIButton
-                    btn.selected = self.tweet.favorited
-                    self.tweet.favoritesCount = tweet.favoritesCount
+                    self.tweet.favoritesCount = tweet.favoritesCount                    
                     self.favoritesLabel.text = "\(self.tweet.favoritesCount)"
                 } else {
+                    btn.selected = self.tweet.favorited
                     TSMessage.showNotificationWithTitle("Error favoriting tweet", type: TSMessageNotificationType.Error)
                 }
             }
@@ -66,17 +73,19 @@ class TweetDetailsViewController: UIViewController {
     }
     
     @IBAction func retweetAction(sender: AnyObject) {
-        TwitterClient.sharedInstance.retweetWithCompletion(self.tweet,
-            completion: { (tweet, error) -> Void in
-                if (tweet != nil) {
-                    TSMessage.showNotificationWithTitle("Tweet retweeted successfully", type: TSMessageNotificationType.Success)
-                    self.tweet.retweetCount = tweet.retweetCount
-                    self.retweetsLabel.text = "\(self.tweet.retweetCount)"
-                } else {
-                    TSMessage.showNotificationWithTitle("Error while retweeting", type: TSMessageNotificationType.Error)
+        if (!self.tweet.retweeted) {
+            TwitterClient.sharedInstance.retweetWithCompletion(self.tweet,
+                completion: { (tweet, error) -> Void in
+                    if (tweet != nil) {
+                        self.tweet = tweet
+                        self.retweetsLabel.text = "\(self.tweet.retweetCount)"
+                        self.retweetBtn.selected = self.tweet.retweeted
+                    } else {
+                        TSMessage.showNotificationWithTitle("Error while retweeting", type: TSMessageNotificationType.Error)
+                    }
                 }
-            }
-        )
+            )
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {

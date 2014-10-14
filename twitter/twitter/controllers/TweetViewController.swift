@@ -18,6 +18,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
     
     var tweetReplyId: Int!
     var tweetReplyUsername: String!
+    var timelineDelegate: TimelineDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +51,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         }
         TwitterClient.sharedInstance.postTweetWithCompletion(text, replyId: tweetReplyId) { (tweet, error) -> Void in
             if (tweet != nil) {
+                self.timelineDelegate.updateTimeline(tweet)
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
                 println(error)

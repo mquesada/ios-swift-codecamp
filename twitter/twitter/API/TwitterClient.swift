@@ -83,7 +83,8 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
                 completion(tweets: tweets, error: nil)
             },
             failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                println("Failed to get timeline")
+                println("Failed to get timeline ")
+                println(error)
                 completion(tweets: nil, error: error)
             }
         )
@@ -125,6 +126,19 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     
     func retweetWithCompletion(tweet: Tweet, completion: (tweet: Tweet!, error: NSError!) -> Void) {
         var url = "/1.1/statuses/retweet/\(tweet.id).json"
+        self.POST(url, parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            var tweet = Tweet(data: response as NSDictionary)
+            completion(tweet: tweet, error: nil)
+            
+            }) { (operation:AFHTTPRequestOperation!, error: NSError!) -> Void in
+                println(error)
+                completion(tweet: nil, error: error)
+        }
+        
+    }
+
+    func deleteTweetWithCompletion(tweet: Tweet, completion: (tweet: Tweet!, error: NSError!) -> Void) {
+        var url = "/1.1/statuses/destroy/\(tweet.id).json"
         self.POST(url, parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             var tweet = Tweet(data: response as NSDictionary)
             completion(tweet: tweet, error: nil)

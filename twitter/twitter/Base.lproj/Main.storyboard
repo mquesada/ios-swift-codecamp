@@ -64,7 +64,7 @@
                                                         <constraint firstAttribute="width" constant="16" id="C6a-td-e0K"/>
                                                         <constraint firstAttribute="height" constant="16" id="Ipg-ui-iWC"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button" image="reply">
+                                                    <state key="normal" image="reply">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
@@ -77,7 +77,7 @@
                                                         <constraint firstAttribute="height" constant="16" id="wRk-wB-JLp"/>
                                                         <constraint firstAttribute="width" constant="16" id="xyc-ja-SuO"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button" image="retweet">
+                                                    <state key="normal" image="retweet">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
@@ -90,7 +90,7 @@
                                                         <constraint firstAttribute="width" constant="16" id="3Dg-Lz-IPL"/>
                                                         <constraint firstAttribute="height" constant="16" id="uu3-Eb-qOf"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button" image="favorite">
+                                                    <state key="normal" image="favorite">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
@@ -420,6 +420,7 @@
                         <outlet property="favoritesLabel" destination="6s9-xt-9ST" id="5KX-gj-D0R"/>
                         <outlet property="nameLabel" destination="fgh-Oa-a1A" id="NvS-5d-LNC"/>
                         <outlet property="profileImageView" destination="0LF-xC-OCD" id="Zip-QQ-jfV"/>
+                        <outlet property="retweetBtn" destination="0aY-1l-aaq" id="KL6-Pn-WHq"/>
                         <outlet property="retweetsLabel" destination="n2w-fT-eCk" id="ewk-Oi-38w"/>
                         <outlet property="tweetTextLabel" destination="yHa-d7-x36" id="sfa-bw-2eD"/>
                         <outlet property="usernameLabel" destination="zyI-IE-ivp" id="tzQ-CV-AhW"/>
@@ -497,6 +498,6 @@
         <image name="retweet" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="XVb-Cx-G8U"/>
+        <segue reference="cPq-7m-KEX"/>
     </inferredMetricsTieBreakers>
 </document>

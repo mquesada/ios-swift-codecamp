@@ -34,6 +34,10 @@ class TweetCell: UITableViewCell {
             self.favoriteBtn.setImage(UIImage(named: "favoriteEnabled"), forState: UIControlState.Selected)
             self.favoriteBtn.selected = self.tweet!.favorited
             
+            self.retweetBtn.setImage(UIImage(named: "retweetEnabled"), forState: UIControlState.Selected)
+            self.retweetBtn.selected = tweet!.retweeted
+            self.retweetBtn.enabled = !tweet!.retweeted
+            
             self.layoutIfNeeded()
         }
     }
