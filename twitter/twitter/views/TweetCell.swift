@@ -19,24 +19,21 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var replyBtn: UIButton!
     @IBOutlet weak var retweetBtn: UIButton!
     @IBOutlet weak var favoriteBtn: UIButton!
+    @IBOutlet weak var retweetedImageView: UIImageView!
+    @IBOutlet weak var retweetedByLabel: UILabel!
+    @IBOutlet weak var topMarginConstraint: NSLayoutConstraint!
     
     var tweet: Tweet? {
         didSet {
-            self.profileImageView.setImageWithURL(self.tweet!.user.profileImageUrl)
-            self.nameLabel.text = self.tweet!.user.name
-            self.usernameLabel.text = "@\(self.tweet!.user.screenName)"
-            self.tweetTextLabel.text = self.tweet!.text
-            self.timeLabel.text = self.tweet!.createdAt.shortTimeAgoSinceNow()
+            self.retweetedImageView.hidden = true
+            self.retweetedByLabel.hidden = true
+            self.topMarginConstraint.constant = 10
             
-            self.profileImageView.layer.cornerRadius = 10.0
-            self.profileImageView.clipsToBounds = true
-            
-            self.favoriteBtn.setImage(UIImage(named: "favoriteEnabled"), forState: UIControlState.Selected)
-            self.favoriteBtn.selected = self.tweet!.favorited
-            
-            self.retweetBtn.setImage(UIImage(named: "retweetEnabled"), forState: UIControlState.Selected)
-            self.retweetBtn.selected = tweet!.retweeted
-            self.retweetBtn.enabled = !tweet!.retweeted
+            if (self.tweet!.isRetweet) {
+                setData(self.tweet!.embeddedTwitted, user: self.tweet!.user)
+            } else {
+                setData(self.tweet!, user:nil)
+            }
             
             self.layoutIfNeeded()
         }
@@ -47,6 +44,30 @@ class TweetCell: UITableViewCell {
             replyBtn.tag = self.index!
             retweetBtn.tag = self.index!
             favoriteBtn.tag = self.index!
+        }
+    }
+    
+    func setData(tweet: Tweet, user: User?) {
+        self.profileImageView.setImageWithURL(tweet.user.profileImageUrl)
+        self.nameLabel.text = tweet.user.name
+        self.usernameLabel.text = "@\(tweet.user.screenName)"
+        self.tweetTextLabel.text = tweet.text
+        self.timeLabel.text = tweet.createdAt.shortTimeAgoSinceNow()
+        
+        self.profileImageView.layer.cornerRadius = 10.0
+        self.profileImageView.clipsToBounds = true
+        
+        self.favoriteBtn.setImage(UIImage(named: "favoriteEnabled"), forState: UIControlState.Selected)
+        self.favoriteBtn.selected = tweet.favorited
+        
+        self.retweetBtn.setImage(UIImage(named: "retweetEnabled"), forState: UIControlState.Selected)
+        self.retweetBtn.selected = tweet.retweeted
+        //            self.retweetBtn.enabled = !tweet!.retweeted
+        if (user != nil) {
+            self.retweetedByLabel.text = "\(user!.name) retweeted"
+            self.retweetedImageView.hidden = false
+            self.retweetedByLabel.hidden = false
+            self.topMarginConstraint.constant = 30
         }
     }
     

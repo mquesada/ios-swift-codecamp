@@ -8,5 +8,7 @@
 
 protocol TimelineDelegate {
     
-    func updateTimeline(tweet: Tweet)
+    func addTweetToTimeline(tweet: Tweet)
+    
+    func updateTweetInTimeline(tweet: Tweet, index: Int)
 }

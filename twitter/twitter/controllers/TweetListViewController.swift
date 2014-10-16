@@ -44,12 +44,13 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func homeTimeline() {
         showLoadingSpinner()
-        TwitterClient.sharedInstance.homeTimelineWithParams(nil, completion: { (tweets, error) -> () in
+        var params = Dictionary<String,String>()
+        params["count"] = "\(tweetsCount)"
+        TwitterClient.sharedInstance.homeTimelineWithParams(params, completion: { (tweets, error) -> () in
             if (error == nil) {
-                self.tweets = tweets!
-                var lastTweet = self.tweets.last
-                if (lastTweet != nil) {
-                    self.lastStatusId = lastTweet!.id
+                self.tweets = tweets
+                if (tweets.count > 0) {
+                    self.lastStatusId = self.tweets.last!.id
                 }
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
                 self.refreshControl.endRefreshing()
@@ -68,7 +69,7 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
         var params = Dictionary<String,String>()
         params["count"] = "\(tweetsCount)"
         if (self.lastStatusId != 0) {
-            params["status_id"] = "\(lastStatusId)"
+            params["max_id"] = "\(self.lastStatusId)"
         }
         self.loading = true
         TwitterClient.sharedInstance.homeTimelineWithParams(params, completion: { (tweets, error) -> () in
@@ -95,8 +96,13 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     
-    func updateTimeline(tweet: Tweet) {
+    func addTweetToTimeline(tweet: Tweet) {
         self.tweets.insert(tweet, atIndex: 0)
+        self.tableView.reloadData()
+    }
+    
+    func updateTweetInTimeline(tweet: Tweet, index: Int) {
+        self.tweets[index] = tweet
         self.tableView.reloadData()
     }
     
@@ -123,6 +129,8 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
             var detailsController = segue.destinationViewController as TweetDetailsViewController
             var cell = sender as TweetCell
             detailsController.tweet = cell.tweet
+            detailsController.index = cell.index!
+            detailsController.timelineDelegate = self
         } else if (segue.identifier == "tweetSegue") {
             var detailsController = segue.destinationViewController as TweetViewController
             detailsController.timelineDelegate = self
@@ -147,13 +155,16 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
     
     @IBAction func retweetAction(sender: AnyObject) {
         var btn = sender as UIButton
-        var tweet = self.tweets[btn.tag]
-        if (!tweet.retweeted) {
-            TwitterClient.sharedInstance.retweetWithCompletion(tweet, completion: { (tweet, error) -> Void in
+        var currentTweet = self.tweets[btn.tag]
+        btn.selected = !currentTweet.retweeted
+        if (!currentTweet.retweeted) {
+            TwitterClient.sharedInstance.retweetWithCompletion(currentTweet, completion: { (tweet, error) -> Void in
                 if (tweet != nil) {
                     self.tweets[btn.tag].retweeted = tweet.retweeted
+                    self.tweets[btn.tag].retweetCount = tweet.retweetCount
                     btn.selected = tweet.retweeted
                 } else {
+                    btn.selected = currentTweet.retweeted
                     TSMessage.showNotificationWithTitle("Error while retweeting", type: TSMessageNotificationType.Error)
                 }
                 
@@ -169,6 +180,7 @@ class TweetListViewController: UIViewController, UITableViewDataSource, UITableV
             completion: { (tweet, error) -> Void in
                 if (tweet != nil) {
                     self.tweets[btn.tag].favorited = tweet.favorited
+                    self.tweets[btn.tag].favoritesCount = tweet.favoritesCount
                 } else {
                     btn.selected = currentTweet.favorited
                     TSMessage.showNotificationWithTitle("Error favoriting tweet", type: TSMessageNotificationType.Error)                    

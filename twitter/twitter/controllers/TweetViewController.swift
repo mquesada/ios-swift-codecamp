@@ -51,7 +51,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         }
         TwitterClient.sharedInstance.postTweetWithCompletion(text, replyId: tweetReplyId) { (tweet, error) -> Void in
             if (tweet != nil) {
-                self.timelineDelegate.updateTimeline(tweet)
+                self.timelineDelegate.addTweetToTimeline(tweet)
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
                 println(error)

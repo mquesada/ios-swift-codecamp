@@ -52,7 +52,7 @@
 		5F7BA1EF19E9A35000F04495 /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TwitterClient.swift; path = API/TwitterClient.swift; sourceTree = "<group>"; };
 		5F7BA1F619E9B24900F04495 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5F7BA1F819E9B29600F04495 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
-		5FAE1BC019EB63CF003D9B1F /* TimelineDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimelineDelegate.swift; path = twitter/TimelineDelegate.swift; sourceTree = "<group>"; };
+		5FAE1BC019EB63CF003D9B1F /* TimelineDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineDelegate.swift; sourceTree = "<group>"; };
 		5FB3117B19E9BCDA00587972 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = controllers/LoginViewController.swift; sourceTree = "<group>"; };
 		5FB3117F19E9E31D00587972 /* TweetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TweetCell.swift; path = views/TweetCell.swift; sourceTree = "<group>"; };
 		ACEFB426A2084AA9A8D0BCD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,7 +80,6 @@
 		5F7BA1BB19E9988900F04495 = {
 			isa = PBXGroup;
 			children = (
-				5FAE1BC019EB63CF003D9B1F /* TimelineDelegate.swift */,
 				5F7BA1C619E9988900F04495 /* twitter */,
 				5F7BA1DC19E9988A00F04495 /* twitterTests */,
 				5F7BA1C519E9988900F04495 /* Products */,
@@ -107,6 +106,7 @@
 				5F7BA1F319E9B21500F04495 /* models */,
 				5F7BA1EE19E9A32100F04495 /* API */,
 				5F7BA1C919E9988900F04495 /* AppDelegate.swift */,
+				5FAE1BC019EB63CF003D9B1F /* TimelineDelegate.swift */,
 				5F7BA1CD19E9988900F04495 /* Main.storyboard */,
 				5F7BA1D019E9988900F04495 /* Images.xcassets */,
 				5F7BA1D219E9988A00F04495 /* LaunchScreen.xib */,
