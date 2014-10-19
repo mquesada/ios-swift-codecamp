@@ -103,6 +103,20 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
             }
         )        
     }
+
+    func usersTimelineWithParams(params: Dictionary<String, String>?, completion: (tweets: [Tweet]!, error: NSError!) -> ()) {
+        self.GET("1.1/statuses/user_timeline.json", parameters: params,
+            success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+                var tweets = Tweet.tweetsWithArray(response as [NSDictionary])
+                completion(tweets: tweets, error: nil)
+            },
+            failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                println("Failed to get mentions timeline ")
+                println(error)
+                completion(tweets: nil, error: error)
+            }
+        )
+    }
     
     func postTweetWithCompletion(tweet: String, replyId: Int?, completion: (tweet: Tweet!, error: NSError!) -> Void) {
         var params = ["status": tweet]

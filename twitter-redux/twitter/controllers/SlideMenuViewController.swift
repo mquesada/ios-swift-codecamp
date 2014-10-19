@@ -53,4 +53,7 @@ class SlideMenuViewController: UIViewController {
         self.menuDelegate.showMentions()
     }
     
+    @IBAction func tabLogoutAction(sender: UITapGestureRecognizer) {
+        User.currentUser?.logout()
+    }
 }

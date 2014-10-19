@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: TweetsViewController {
 
     @IBOutlet weak var bannerImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
@@ -19,16 +19,13 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var urlLabel: UILabel!
     @IBOutlet weak var followingCountLabel: UILabel!
     @IBOutlet weak var followersCountLabel: UILabel!
+    @IBOutlet weak var tweetsCountLabel: UILabel!
     
     var user: User!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setData()
-        if (self.navigationController? != nil) {
-            self.navigationController?.navigationBar
-        }
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,7 +33,6 @@ class ProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
     func setData() {
         if (user.bannerImageUrl != nil) {
             self.bannerImageView.setImageWithURL(user.bannerImageUrl)
@@ -60,6 +56,62 @@ class ProfileViewController: UIViewController {
         }
         self.followingCountLabel.text = "\(user.followingCount)"
         self.followersCountLabel.text = "\(user.followersCount)"
+        self.tweetsCountLabel.text = "\(user.tweetsCount)"
+    }
+    
+    override func loadTimeline() {
+        showLoadingSpinner()
+        var params = Dictionary<String,String>()
+        params["count"] = "\(tweetsCount)"
+        params["user_id"] = self.user.id
+        TwitterClient.sharedInstance.usersTimelineWithParams(params, completion: { (tweets, error) -> () in
+            if (error == nil) {
+                self.tweets = tweets
+                if (tweets.count > 0) {
+                    self.lastStatusId = self.tweets.last!.id
+                }
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                self.refreshControl.endRefreshing()
+                self.tableView.reloadData()
+                self.loading = false
+            } else {
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                self.refreshControl.endRefreshing()
+                TSMessage.showNotificationWithTitle("Error loading users timeline", type: TSMessageNotificationType.Error)
+            }
+        })
+    }
+    
+    override func loadMoreTweets() {
+        showLoadingSpinner()
+        var params = Dictionary<String,String>()
+        params["count"] = "\(tweetsCount)"
+        params["user_id"] = self.user.id
+        if (self.lastStatusId != 0) {
+            params["max_id"] = "\(self.lastStatusId)"
+        }
+        self.loading = true
+        TwitterClient.sharedInstance.usersTimelineWithParams(params, completion: { (tweets, error) -> () in
+            if (error == nil) {
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                self.refreshControl.endRefreshing()
+                for tweet in tweets {
+                    var row = self.tweets.count
+                    self.tweets.append(tweet)
+                    self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow:row, inSection:0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                }
+                
+                var lastTweet = self.tweets.last
+                if (lastTweet != nil) {
+                    self.lastStatusId = lastTweet!.id
+                }
+                self.loading = false
+            } else {
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                self.refreshControl.endRefreshing()
+                TSMessage.showNotificationWithTitle("Error loading users timeline", type: TSMessageNotificationType.Error)
+            }
+        })
     }
 
 }

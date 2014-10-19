@@ -21,6 +21,15 @@ class MentionListViewController: TweetsViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell = super.tableView(self.tableView, cellForRowAtIndexPath: indexPath) as TweetCell
+        
+        var tapGesture = UITapGestureRecognizer(target: self, action: "onProfileTab:")
+        cell.profileImageView.addGestureRecognizer(tapGesture)
+        
+        return cell
+    }
+    
     override func loadTimeline() {
         showLoadingSpinner()
         var params = Dictionary<String,String>()

@@ -48,6 +48,9 @@ class TweetDetailsViewController: UIViewController {
         self.profileImageView.setImageWithURL(tweet.user.profileImageUrl)
         self.profileImageView.layer.cornerRadius = 10.0
         self.profileImageView.clipsToBounds = true
+        self.profileImageView.userInteractionEnabled = true
+        var tapGesture = UITapGestureRecognizer(target: self, action: "onProfileTab:")
+        self.profileImageView.addGestureRecognizer(tapGesture)
         
         self.nameLabel.text = tweet.user.name
         self.usernameLabel.text = "@\(tweet.user.screenName)"
@@ -70,6 +73,19 @@ class TweetDetailsViewController: UIViewController {
             self.topMarginConstraint.constant = 30
         }
         
+    }
+    
+    func onProfileTab(gesture: UITapGestureRecognizer) {
+        var storyboard = UIStoryboard(name: "Main", bundle: nil)
+        var profileController = storyboard.instantiateViewControllerWithIdentifier("ProfileViewController") as ProfileViewController
+        
+        if (self.tweet.isRetweet) {
+            profileController.user = self.tweet.embeddedTwitted.user
+        } else {
+            profileController.user = self.tweet.user
+        }
+        
+        self.navigationController?.pushViewController(profileController, animated: true)
     }
     
     override func didReceiveMemoryWarning() {

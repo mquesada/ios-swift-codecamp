@@ -66,9 +66,6 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         cell.tweet = self.tweets[indexPath.row]
         cell.index = indexPath.row
         
-        var tapGesture = UITapGestureRecognizer(target: self, action: "onProfileTab:")
-        cell.profileImageView.addGestureRecognizer(tapGesture)
-        
         return cell
     }
     
