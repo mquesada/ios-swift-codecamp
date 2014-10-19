@@ -14,3 +14,7 @@ Week assignments made during the iOS Swift Codepath Observer group class.
 #Assignment Week 3
 
 [Twitter Client](https://github.com/mquesada/ios-swift-codecamp/tree/master/twitter)
+
+#Assignment Week 4
+
+[Twitter Client Redux](https://github.com/mquesada/ios-swift-codecamp/tree/master/twitter-redux)
