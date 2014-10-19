@@ -44,6 +44,11 @@ class TweetDetailsViewController: UIViewController {
 
     }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        self.navigationController?.navigationBar.backgroundColor = UIColor.blueColor()
+    }
+    
     func setData(tweet: Tweet, retweetUser: User?) {
         self.profileImageView.setImageWithURL(tweet.user.profileImageUrl)
         self.profileImageView.layer.cornerRadius = 10.0
@@ -78,7 +83,7 @@ class TweetDetailsViewController: UIViewController {
     func onProfileTab(gesture: UITapGestureRecognizer) {
         var storyboard = UIStoryboard(name: "Main", bundle: nil)
         var profileController = storyboard.instantiateViewControllerWithIdentifier("ProfileViewController") as ProfileViewController
-        
+
         if (self.tweet.isRetweet) {
             profileController.user = self.tweet.embeddedTwitted.user
         } else {

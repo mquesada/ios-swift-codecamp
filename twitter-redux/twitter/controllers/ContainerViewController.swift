@@ -13,7 +13,7 @@ class ContainerViewController: UIViewController, MenuDelegate {
     var slideMenuController: SlideMenuViewController!
     var loginController: LoginViewController!
     var tweetsController: UINavigationController!
-    var profileController: ProfileViewController!
+    var profileController: UINavigationController!
     var mentionsController: UINavigationController!
 
     @IBOutlet weak var menuView: UIView!
@@ -69,7 +69,7 @@ class ContainerViewController: UIViewController, MenuDelegate {
         self.loginController.view.frame = self.view.frame
         self.loginController.didMoveToParentViewController(self)
     }
-    
+        
     @IBAction func onPanGesture(sender: UIPanGestureRecognizer) {
         if (User.isLoggedIn()) {
             var location = sender.locationInView(self.view)
@@ -113,10 +113,9 @@ class ContainerViewController: UIViewController, MenuDelegate {
     func showProfile() {
         if (self.profileController == nil) {
             var storyboard = UIStoryboard(name: "Main", bundle: nil)
-            self.profileController = storyboard.instantiateViewControllerWithIdentifier("ProfileViewController") as ProfileViewController
+            self.profileController = storyboard.instantiateViewControllerWithIdentifier("ProfileNavigationController") as UINavigationController
+            self.addChildViewController(self.profileController)
         }
-        self.profileController.user = User.currentUser
-        self.addChildViewController(self.profileController)
         self.contentView.addSubview(self.profileController.view)
         self.profileController.view.frame = self.view.frame
         self.profileController.didMoveToParentViewController(self)

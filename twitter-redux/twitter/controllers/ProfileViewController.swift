@@ -24,8 +24,30 @@ class ProfileViewController: TweetsViewController {
     var user: User!
     
     override func viewDidLoad() {
+        if (self.user == nil) {
+            self.user = User.currentUser
+        }
+        
         super.viewDidLoad()
         self.setData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        var navBar = self.navigationController?.navigationBar
+        navBar!.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navBar!.shadowImage = UIImage()
+        navBar!.translucent = true
+        navBar!.opaque = true
+//        navBar!.tintColor = UIColor.clearColor()
+        navBar!.backgroundColor = UIColor.clearColor()
+        navBar!.alpha = 0.5
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        var navBar = self.navigationController?.navigationBar
+        navBar!.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+        navBar!.shadowImage = nil
+        navBar!.alpha = 1
     }
 
     override func didReceiveMemoryWarning() {
