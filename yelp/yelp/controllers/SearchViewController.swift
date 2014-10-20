@@ -12,16 +12,16 @@ import CoreLocation
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,
                             UISearchBarDelegate, FilterViewDelegate, CLLocationManagerDelegate {
     
-    let defaultTerm = "Restaurants"
-    let limit = 20
+    let defaultTerm = "Restaurants"    
     
     @IBOutlet weak var tableView: UITableView!
     
     var searchBar: UISearchBar!
     var refreshControl: UIRefreshControl!
-    var searchManager: SearchManager!    
-    var offset = 0
+    var searchManager: SearchManager!
     var locationManager = CLLocationManager()
+    var businesses = [Business]()
+    var loading = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +54,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-//        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,13 +62,19 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.searchManager.result.count
+        return self.businesses.count
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (indexPath.row + 5 >= self.businesses.count && !self.loading) {
+            loadMoreBusinesses()
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = self.tableView.dequeueReusableCellWithIdentifier("BusinessCell") as BusinessCell
         cell.frame = CGRectMake(0, 0, 9999, 9999)
-        cell.business = self.searchManager.result[indexPath.row]
+        cell.business = self.businesses[indexPath.row]
         return cell
     }
     
@@ -98,18 +103,50 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     /* === SEARCH METHODS === */
     
     func doSearch() {
-        self.searchManager.executeSearch(searchBar.text, limit: limit, offset: offset,
+        self.searchManager.executeSearch(searchBar.text,
             before: self.showLoadingSpinner,
             after:{ () -> Void in },
-            onSuccess: { () -> Void in
+            onSuccess: { (businesses: [Business]) -> Void in
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
                 
                 // Stop refreshing if it was
                 self.refreshControl.endRefreshing()
                 
+                self.businesses = businesses
+                
                 self.tableView.reloadData()
             },
             onFailure: { () -> Void in                
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                
+                // Stop refreshing if it was
+                self.refreshControl.endRefreshing()
+                
+                self.showNetworkErrorMsg()
+            }
+        )
+    }
+    
+    func loadMoreBusinesses() {
+        self.loading = true
+        self.searchManager.executeSearch(searchBar.text,
+            before: self.showLoadingSpinner,
+            after:{ () -> Void in },
+            onSuccess: { (businesses: [Business]) -> Void in
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                
+                // Stop refreshing if it was
+                self.refreshControl.endRefreshing()
+                
+                for business in businesses {
+                    var row = self.businesses.count
+                    self.businesses.append(business)
+                    self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow:row, inSection:0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                }
+                
+                self.loading = false
+            },
+            onFailure: { () -> Void in
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
                 
                 // Stop refreshing if it was
@@ -144,7 +181,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func refresh(sender: AnyObject) {
-        self.offset = 0
+        self.searchManager.offset = 0
         if (searchBar.text.isEmpty){
             searchBar.text = defaultTerm
         }
