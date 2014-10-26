@@ -75,8 +75,8 @@ class ContainerViewController: UIViewController, MenuDelegate {
             var location = sender.locationInView(self.view)
             
             if (sender.state == UIGestureRecognizerState.Began || sender.state == UIGestureRecognizerState.Changed) {
-                var quarter = self.view.frame.width / 4
-                if (location.x <= (quarter * 3)) {
+                var quarter = self.view.frame.width / 8
+                if (location.x <= (quarter * 7)) {
                     self.contentView.frame.origin.x = location.x
                 }
             } else if (sender.state == UIGestureRecognizerState.Ended) {
@@ -84,9 +84,9 @@ class ContainerViewController: UIViewController, MenuDelegate {
                 if (location.x < center.x) {
                     self.openContentView()
                 } else {
-                    var quarter = self.view.frame.width / 4
+                    var quarter = self.view.frame.width / 8
                     UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        self.contentView.frame.origin.x = (quarter * 3)
+                        self.contentView.frame.origin.x = (quarter * 7)
                     })
                 }
             }

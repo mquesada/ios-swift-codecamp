@@ -38,16 +38,13 @@ class ProfileViewController: TweetsViewController {
         navBar!.shadowImage = UIImage()
         navBar!.translucent = true
         navBar!.opaque = true
-//        navBar!.tintColor = UIColor.clearColor()
         navBar!.backgroundColor = UIColor.clearColor()
-        navBar!.alpha = 0.5
     }
     
     override func viewWillDisappear(animated: Bool) {
         var navBar = self.navigationController?.navigationBar
         navBar!.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
         navBar!.shadowImage = nil
-        navBar!.alpha = 1
     }
 
     override func didReceiveMemoryWarning() {

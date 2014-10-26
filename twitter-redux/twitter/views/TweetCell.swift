@@ -76,7 +76,7 @@ class TweetCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.contentView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
+        self.contentView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
